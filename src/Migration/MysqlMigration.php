@@ -1,0 +1,249 @@
+<?php
+/**
+ * Part of Banco Omega CMS -  Database Package
+ *
+ * @link       https://omegacms.github.io
+ * @author     Adriano Giovannini <omegacms@outlook.com>
+ * @copyright  Copyright (c) 2022 Adriano Giovannini. (https://omegacms.github.io)
+ * @license    https://www.gnu.org/licenses/gpl-3.0-standalone.html     GPL V3.0+
+ */
+
+/**
+ * @declare
+ */
+declare( strict_types = 1 );
+
+/**
+ * @namespace
+ */
+namespace Omega\Database\Migration;
+
+/**
+ * @use
+ */
+use function array_filter;
+use function array_map;
+use function join;
+use Omega\Database\Adapter\MysqlAdapter;
+use Omega\Database\Exceptions\MigrationException;
+use Omega\Database\Migration\Field\AbstractField;
+use Omega\Database\Migration\Field\BoolField;
+use Omega\Database\Migration\Field\DateTimeField;
+use Omega\Database\Migration\Field\FloatField;
+use Omega\Database\Migration\Field\IdField;
+use Omega\Database\Migration\Field\IntField;
+use Omega\Database\Migration\Field\StringField;
+use Omega\Database\Migration\Field\TextField;
+
+/**
+ * Mysql migration class.
+ *
+ * @category    Omega
+ * @package     Framework\Database
+ * @subpackage  Omega\Database\Migration
+ * @link        https://omegacms.github.com
+ * @author      Adriano Giovannini <omegacms@outlook.com>
+ * @copyright   Copyright (c) 2022 Adriano Giovannini. (https://omegacms.github.com)
+ * @license     https://www.gnu.org/licenses/gpl-3.0-standalone.html     GPL V3.0+
+ * @version     1.0.0
+ */
+class MysqlMigration extends AbstractMigration
+{
+    /**
+     * Mysql object.
+     *
+     * @var MysqlAdapter $connection Holds an instance of Mysql.
+     */
+    protected MysqlAdapter $connection;
+
+    /**
+     * Table name.
+     *
+     * @var string $table Holds the table name.
+     */
+    protected string $table;
+
+    /**
+     * Query type.
+     *
+     * @var string $type Holds the query type-
+     */
+    protected string $type;
+
+    /**
+     * Drops columns.
+     *
+     * @var array $drops Holds an array of drops columns.
+     */
+    protected array $drops = [];
+
+    /**
+     * MysqlMigration class constructor.
+     *
+     * @param  MysqlAdapter $connection Holds an instance of Mysql.
+     * @param  string       $table      Holds the table name.
+     * @param  string       $type       Holds the query type.
+     * @return void
+     */
+    public function __construct( MysqlAdapter $connection, string $table, string $type )
+    {
+        $this->connection = $connection;
+        $this->table      = $table;
+        $this->type       = $type;
+    }
+
+    /**
+     * Execute migration.
+     *
+     * @return void
+     */
+    public function execute() : void
+    {
+        $fields = array_map( fn( $field ) => $this->stringForField( $field ), $this->fields );
+
+        $primary = array_filter( $this->fields, fn( $field ) => $field instanceof IdField );
+        $primaryKey = isset( $primary[ 0 ] ) ? "PRIMARY KEY (`{$primary[0]->name}`)" : '';
+
+        if ( $this->type === 'create' ) {
+            $fields = join( PHP_EOL, array_map( fn( $field ) => "{$field},", $fields ) );
+
+            $query = "
+                CREATE TABLE `{$this->table}` (
+                    {$fields}
+                    {$primaryKey}
+                ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+            ";
+        }
+
+        if ( $this->type === 'alter' ) {
+            $fields = join( PHP_EOL, array_map( fn( $field ) => "{$field};", $fields ) );
+            $drops = join( PHP_EOL, array_map( fn( $drop ) => "DROP COLUMN `{$drop}`;", $this->drops ) );
+
+            $query = "
+                ALTER TABLE `{$this->table}`
+                {$fields}
+                {$drops}
+            ";
+        }
+
+        $statement = $this->connection->pdo()->prepare( $query );
+        $statement->execute();
+    }
+
+    /**
+     * String for field.
+     *
+     * @param  AbstractField $field Holds an instance of AbstractField.
+     * @return string Return the string for the field.
+     */
+    private function stringForField( AbstractField $field ) : string
+    {
+        $prefix = '';
+
+        if ( $this->type === 'alter' ) {
+            $prefix = 'ADD';
+        }
+
+        if ( $field->alter ) {
+            $prefix = 'MODIFY';
+        }
+
+        if ( $field instanceof BoolField ) {
+            $template = "{$prefix} `{$field->name}` tinyint(4)";
+
+            if ( $field->nullable ) {
+                $template .= " DEFAULT NULL";
+            }
+
+            if ( $field->default !== null ) {
+                $default = (int)$field->default;
+                $template .= " DEFAULT {$default}";
+            }
+
+            return $template;
+        }
+
+        if ( $field instanceof DateTimeField ) {
+            $template = "{$prefix} `{$field->name}` datetime";
+
+            if ( $field->nullable ) {
+                $template .= " DEFAULT NULL";
+            }
+
+            if ( $field->default === 'CURRENT_TIMESTAMP' ) {
+                $template .= " DEFAULT CURRENT_TIMESTAMP";
+            } elseif ( $field->default !== null ) {
+                $template .= " DEFAULT '{$field->default}'";
+            }
+
+            return $template;
+        }
+
+        if ( $field instanceof FloatField ) {
+            $template = "{$prefix} `{$field->name}` float";
+
+            if ( $field->nullable ) {
+                $template .= " DEFAULT NULL";
+            }
+
+            if ( $field->default !== null ) {
+                $template .= " DEFAULT '{$field->default}'";
+            }
+
+            return $template;
+        }
+
+        if ( $field instanceof IdField ) {
+            return "{$prefix} `{$field->name}` int(11) unsigned NOT NULL AUTO_INCREMENT";
+        }
+
+        if ( $field instanceof IntField ) {
+            $template = "{$prefix} `{$field->name}` int(11)";
+
+            if ( $field->nullable ) {
+                $template .= " DEFAULT NULL";
+            }
+
+            if ( $field->default !== null ) {
+                $template .= " DEFAULT '{$field->default}'";
+            }
+
+            return $template;
+        }
+
+        if ( $field instanceof StringField ) {
+            $template = "{$prefix} `{$field->name}` varchar(255)";
+
+            if ( $field->nullable ) {
+                $template .= " DEFAULT NULL";
+            }
+
+            if ( $field->default !== null ) {
+                $template .= " DEFAULT '{$field->default}'";
+            }
+
+            return $template;
+        }
+
+        if ( $field instanceof TextField ) {
+            return "{$prefix} `{$field->name}` text";
+        }
+
+        throw new MigrationException(
+            "Unrecognised field type for {$field->name}"
+        );
+    }
+
+    /**
+     * Drop column.
+     *
+     * @param  string $name Holds the column name.
+     * @return $this
+     */
+    public function dropColumn( string $name ) : static
+    {
+        $this->drops[] = $name;
+
+        return $this;
+    }
+}
