@@ -1,45 +1,108 @@
 <?php
+/**
+ * Part of Omega CMS - Database Package
+ *
+ * @link       https://omegacms.github.io
+ * @author     Adriano Giovannini <omegacms@outlook.com>
+ * @copyright  Copyright (c) 2022 Adriano Giovannini. (https://omegacms.github.io)
+ * @license    https://www.gnu.org/licenses/gpl-3.0-standalone.html     GPL V3.0+
+ */
 
+/**
+ * @declare
+ */
+declare( strict_types = 1 );
+
+/**
+ * @namespace
+ */
 namespace Omega\Database\Adapter;
 
+/**
+ * @use
+ */
 use Omega\Database\Migration\AbstractMigration;
 use Omega\QueryBuilder\AbstractQueryBuilder;
 use Pdo;
 
+/**
+ * Database Adapter Interface.
+ *
+ * This interface defines the contract for database adapter classes, which provide
+ * a set of methods for interacting with a database.
+ *
+ * @category    Omega
+ * @package     Omega\Database
+ * @subpackage  Omega\Database\Adapter
+ * @link        https://omegacms.github.com
+ * @author      Adriano Giovannini <omegacms@outlook.com>
+ * @version     1.0.0
+ * @license     https://www.gnu.org/licenses/gpl-3.0-standalone.html     GPL V3.0+
+ */
 interface DatabaseAdapterInterface
 {
     /**
-     * Get the underlying Pdo instance for this connection
+     * Get the underlying PDO instance for this connection.
+     *
+     * @return Pdo Returns the current PDO instance that represents the database connection.
      */
     public function pdo() : Pdo;
 
     /**
-     * Start a new query on this connection
+     * Start a new query builder on this connection.
+     *
+     * This method initializes a new query builder instance for building SQL queries.
+     *
+     * @return AbstractQueryBuilder An instance of the AbstractQueryBuilder class for constructing SQL queries.
      */
     public function query() : AbstractQueryBuilder;
 
     /**
-     * Start a new migration to add a table on this connection
+     * Start a new migration to create a table on this connection.
+     *
+     * This method begins a new migration process for creating a database table.
+     *
+     * @param  string $table The name of the table to create.
+     * @return  AbstractMigration Returns an instance of the AbstractMigration class for managing table creation.
      */
     public function createTable( string $table ) : AbstractMigration;
 
     /**
-     * Start a new migration to add a table on this connection
+     * Start a new migration to modify an existing table on this connection.
+     *
+     * This method initiates a new migration process for modifying an existing database table.
+     *
+     * @param  string $table The name of the table to modify.
+     * @return AbstractMigration Returns an instance of the AbstractMigration class for managing table alterations.
      */
     public function alterTable( string $table ) : AbstractMigration;
 
     /**
-     * Return a  list of table names on this connection
+     * Get the list of table names on this connection.
+     *
+     * Retrieve an array containing the names of all tables available on this database connection.
+     *
+     * @return array Returns an array of table names available on this connection.
      */
     public function getTables() : array;
 
     /**
-     * Find out if a table exists on this connection
+     * Check if a table exists on this connection.
+     *
+     * Determine whether a specified table exists on the database connection.
+     *
+     * @param  string $name The name of the table to check.
+     * @return bool Returns true if the specified table exists, otherwise returns false.
      */
     public function hasTable( string $name ) : bool;
 
     /**
-     * Drop all tables in the current database
+     * Drop all tables in the current database. Use with caution.
+     *
+     * This method is used to delete all tables in the current database. Exercise caution as data loss is irreversible.
+     *
+     * @return int Returns 1 if all tables are successfully dropped, or false if any issues occur during the process.
      */
     public function dropTables() : int;
+
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Part of Banco Omega CMS -  Database Package
+ * Part of Omega CMS - Database Package
  *
  * @link       https://omegacms.github.io
  * @author     Adriano Giovannini <omegacms@outlook.com>
@@ -27,11 +27,15 @@ use Omega\QueryBuilder\AbstractQueryBuilder;
 use Pdo;
 
 /**
- * Abstract connection class.
+ * Abstract database adapter class.
+ *
+ * The `AbstractDatabaseAdapter` is designed to provide a basic abstraction for database
+ * connection and management. This class is declared as abstract and offers a basic implementation
+ * of several methods defined in the `DatabaseAdapterInterface` interface.
  *
  * @category    Omega
- * @package     Framework\Database
- * @subpackage  Omega\Database\Connection
+ * @package     Omega\Database
+ * @subpackage  Omega\Database\Adapter
  * @link        https://omegacms.github.com
  * @author      Adriano Giovannini <omegacms@outlook.com>
  * @copyright   Copyright (c) 2022 Adriano Giovannini. (https://omegacms.github.com)
@@ -48,9 +52,9 @@ abstract class AbstractDatabaseAdapter implements DatabaseAdapterInterface
     public Pdo $pdo;
 
     /**
-     * Get the underlying Pdo instance for this connection.
+     * @inheritdoc
      *
-     * @return Pdo Return an instance of Pdo.
+     * @return Pdo Returns the current PDO instance that represents the database connection.
      */
     public function pdo() : Pdo
     {
@@ -58,10 +62,10 @@ abstract class AbstractDatabaseAdapter implements DatabaseAdapterInterface
     }
 
     /**
-     * Find out if a table exists on this connection.
+     * @inheritdoc
      *
-     * @param  string $name Holds the table name.
-     * @return bool Return true if table exists on this connection.
+     * @param  string $name The name of the table to check.
+     * @return bool Returns true if the specified table exists, otherwise returns false.
      */
     public function hasTable( string $name ) : bool
     {
@@ -71,37 +75,39 @@ abstract class AbstractDatabaseAdapter implements DatabaseAdapterInterface
     }
 
     /**
-     * Start a new query on this connection.
+     * @inheritdoc
      *
-     * @return AbstractQueryBuilder Return an instance of AbstractQueryBuilder.
+     * @return AbstractQueryBuilder An instance of the AbstractQueryBuilder class for constructing SQL queries.
      */
     abstract public function query() : AbstractQueryBuilder;
 
     /**
-     * Start a new migration to add a table on this connection.
+     * @inheritdoc
      *
-     * @return AbstractMigration Return an instance of AbstractMigration.
+     * @param  string $table The name of the table to create.
+     * @return  AbstractMigration Returns an instance of the AbstractMigration class for managing table creation.
      */
     abstract public function createTable( string $table ) : AbstractMigration;
 
     /**
-     * Start a new migration to add a table on this connection.
+     * @inheritdoc
      *
-     * @return AbstractMigration Return an instance of AbstractMigration.
+     * @param  string $table The name of the table to modify.
+     * @return AbstractMigration Returns an instance of the AbstractMigration class for managing table alterations.
      */
     abstract public function alterTable( string $table ) : AbstractMigration;
 
     /**
-     * Get table names on this connection.
+     * @inheritdoc
      *
-     * @return array Return a list of table names on this connection.
+     * @return array Returns an array of table names available on this connection.
      */
     abstract public function getTables() : array;
 
     /**
-     * Drop all tables in the current database.
+     * @inheritdoc
      *
-     * @return int
+     * @return int Returns 1 if all tables are successfully dropped, or false if any issues occur during the process.
      */
     abstract public function dropTables() : int;
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Part of Banco Omega CMS -  Database Package
+ * Part of Omega CMS - Database Package
  *
  * @link       https://omegacms.github.io
  * @author     Adriano Giovannini <omegacms@outlook.com>
@@ -28,11 +28,16 @@ use Omega\QueryBuilder\MysqlQueryBuilder;
 use Pdo;
 
 /**
- * Mysql adapter class.
+ * MySQL adapter class.
+ *
+ * The `MysqleDatabaseAdapter` class is an implementation of the abstract `AbstractDatabaseAdapter`
+ * and is specifically tailored for MySQL database connections. This adapter provides mysql-specific
+ * database management features while inheriting the common database functionality defined in the parent
+ * class.
  *
  * @category    Omega
- * @package     Framework\Database
- * @subpackage  Omega\Database\Connection\Adapter
+ * @package     Omega\Database
+ * @subpackage  Omega\Database\Adapter
  * @link        https://omegacms.github.com
  * @author      Adriano Giovannini <omegacms@outlook.com>
  * @copyright   Copyright (c) 2022 Adriano Giovannini. (https://omegacms.github.com)
@@ -43,13 +48,13 @@ class MysqlAdapter extends AbstractDatabaseAdapter
 {
     /**
      * Database name.
-     * 
-     * @var string $database Holds the database name. 
+     *
+     * @var string $database Holds the database name.
      */
     private string $database;
 
     /**
-     * Sqlite class constructor.
+     * MySQL class constructor.
      *
      * @param  array $config Holds an array of configuration params.
      * @return void
@@ -76,9 +81,9 @@ class MysqlAdapter extends AbstractDatabaseAdapter
     }
 
     /**
-     * Start a new query on this connection.
+     * @inheritdoc
      *
-     * @return MysqlQueryBuilder Return an instance of MysqlQueryBuilder.
+     * @return AbstractQueryBuilder An instance of the AbstractQueryBuilder class for constructing SQL queries.
      */
     public function query() : MysqlQueryBuilder
     {
@@ -86,9 +91,10 @@ class MysqlAdapter extends AbstractDatabaseAdapter
     }
 
     /**
-     * Start a new migration to add a table on this connection.
+     * @inheritdoc
      *
-     * @return MysqlMigration Return an instance of MysqlMigration.
+     * @param  string $table The name of the table to create.
+     * @return  AbstractMigration Returns an instance of the AbstractMigration class for managing table creation.
      */
     public function createTable( string $table ) : MysqlMigration
     {
@@ -96,9 +102,10 @@ class MysqlAdapter extends AbstractDatabaseAdapter
     }
 
     /**
-     * Start a new migration to add a table on this connection.
+     * @inheritdoc
      *
-     * @return MysqlMigration Return an instance of MysqlMigration.
+     * @param  string $table The name of the table to modify.
+     * @return AbstractMigration Returns an instance of the AbstractMigration class for managing table alterations.
      */
     public function alterTable( string $table ) : MysqlMigration
     {
@@ -106,7 +113,7 @@ class MysqlAdapter extends AbstractDatabaseAdapter
     }
 
     /**
-     * Get table names on this connection.
+     * @inheritdoc
      *
      * @return array Return a list of table names on this connection.
      */
@@ -119,11 +126,11 @@ class MysqlAdapter extends AbstractDatabaseAdapter
 
         return array_map( fn( $result ) => $result[ 0 ], $results );
     }
-    
+
     /**
-     * Drop all tables in the current database.
+     * @inheritdoc
      *
-     * @return int
+     * @return int Returns 1 if all tables are successfully dropped, or false if any issues occur during the process.
      */
     public function dropTables() : int
     {

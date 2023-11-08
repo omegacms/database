@@ -1,6 +1,6 @@
 <?php
 /**
- * Part of Banco Omega CMS -  Database Package
+ * Part of Omega CMS - Database Package
  *
  * @link       https://omegacms.github.io
  * @author     Adriano Giovannini <omegacms@outlook.com>
@@ -29,7 +29,7 @@ use InvalidArgumentException;
  * This exception throws if the connection is not properly configured.
  *
  * @category    Omega
- * @package     Framework\Database
+ * @package     Omega\Database
  * @subpackage  Omega\Database\Exceptions
  * @link        https://omegacms.github.com
  * @author      Adriano Giovannini <omegacms@outlook.com>

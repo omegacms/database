@@ -1,6 +1,6 @@
 <?php
 /**
- * Part of Banco Omega CMS -  Database Package
+ * Part of Omega CMS - Database Package
  *
  * @link       https://omegacms.github.io
  * @author     Adriano Giovannini <omegacms@outlook.com>
@@ -29,7 +29,7 @@ use PDOException;
  * This exception throws when an error occurred during migration.
  *
  * @category    Omega
- * @package     Framework\Database
+ * @package     Omega\Database
  * @subpackage  Omega\Database\Exceptions
  * @link        https://omegacms.github.com
  * @author      Adriano Giovannini <omegacms@outlook.com>

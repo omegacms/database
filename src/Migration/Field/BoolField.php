@@ -1,6 +1,6 @@
 <?php
 /**
- * Part of Banco Omega CMS -  Database Package
+ * Part of vOmega CMS - Database Package
  *
  * @link       https://omegacms.github.io
  * @author     Adriano Giovannini <omegacms@outlook.com>
@@ -22,7 +22,7 @@ namespace Omega\Database\Migration\Field;
  * Boolean field class.
  *
  * @category    Omega
- * @package     Framework\Database
+ * @package     Omega\Database
  * @subpackage  Omega\Database\Migration\Field
  * @link        https://omegacms.github.com
  * @author      Adriano Giovannini <omegacms@outlook.com>

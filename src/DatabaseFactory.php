@@ -1,6 +1,6 @@
 <?php
 /**
- * Part of Banco Omega CMS -  Database Package
+ * Part of Omega CMS - Database Package
  *
  * @link       https://omegacms.github.io
  * @author     Adriano Giovannini <omegacms@outlook.com>
@@ -30,7 +30,7 @@ use Omega\ServiceProvider\ServiceProviderInterface;
  * DatabaseFactory class.
  *
  * @category    Omega
- * @package     Framework\Database
+ * @package     Omega\Database
  * @link        https://omegacms.github.com
  * @author      Adriano Giovannini <omegacms@outlook.com>
  * @copyright   Copyright (c) 2022 Adriano Giovannini. (https://omegacms.github.com)

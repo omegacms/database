@@ -1,6 +1,6 @@
 <?php
 /**
- * Part of Banco Omega CMS -  Database Package
+ * Part of Omega CMS - Database Package
  *
  * @link       https://omegacms.github.io
  * @author     Adriano Giovannini <omegacms@outlook.com>
@@ -27,7 +27,7 @@ use Omega\Database\Exceptions\MigrationException;
  * ID field class.
  *
  * @category    Omega
- * @package     Framework\Database
+ * @package     Omega\Database
  * @subpackage  Omega\Database\Migration\Field
  * @link        https://omegacms.github.com
  * @author      Adriano Giovannini <omegacms@outlook.com>

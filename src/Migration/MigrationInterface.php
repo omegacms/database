@@ -1,6 +1,6 @@
 <?php
 /**
- * Part of Banco Omega CMS -  Database Package
+ * Part of Omega CMS - Database Package
  *
  * @link       https://omegacms.github.io
  * @author     Adriano Giovannini <omegacms@outlook.com>
@@ -33,7 +33,7 @@ use Omega\Database\Migration\Field\TextField;
  * Migration interface.
  *
  * @category    Omega
- * @package     Framework\Database
+ * @package     Omega\Database
  * @subpackage  Omega\Database\Migration
  * @link        https://omegacms.github.com
  * @author      Adriano Giovannini <omegacms@outlook.com>
