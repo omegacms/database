@@ -29,6 +29,10 @@ use Omega\ServiceProvider\ServiceProviderInterface;
 /**
  * DatabaseFactory class.
  *
+ * The `DatabaseFactory` class represents a factory for managing database adapters.
+ * This class allows registration of database drivers and provides a method to connect
+ * the appropriate driver based on the configuration.
+ *
  * @category    Omega
  * @package     Omega\Database
  * @link        https://omegacms.github.com
@@ -47,7 +51,7 @@ class DatabaseFactory implements ServiceProviderInterface
     protected array $connectors;
 
     /**
-     * Add driver.
+     * Add database driver.
      *
      * @param  string  $alias  Holds the driver alias.
      * @param  Closure $driver Holds an instance of Closure.
@@ -64,7 +68,7 @@ class DatabaseFactory implements ServiceProviderInterface
      * Connect the driver.
      *
      * @param  array $config Holds an array of configuration.
-     * @return mixed
+     * @return AbstractDatabaseAdapter Return an instance of AbstractDatabaseAdapter.
      * @throws AdapterException if the adapter is not defined or unrecognised.
      */
     public function bootstrap( array $config ) : AbstractDatabaseAdapter

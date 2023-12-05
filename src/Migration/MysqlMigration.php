@@ -38,6 +38,9 @@ use Omega\Database\Migration\Field\TextField;
 /**
  * Mysql migration class.
  *
+ * The `MysqlMigration` class handles SQLite database migrations, creating
+ * or altering tables.
+ *
  * @category    Omega
  * @package     Omega\Database
  * @subpackage  Omega\Database\Migration
@@ -93,7 +96,7 @@ class MysqlMigration extends AbstractMigration
     }
 
     /**
-     * Execute migration.
+     * @inheritdoc
      *
      * @return void
      */
@@ -235,7 +238,7 @@ class MysqlMigration extends AbstractMigration
     }
 
     /**
-     * Drop column.
+     * @inheritdoc
      *
      * @param  string $name Holds the column name.
      * @return $this

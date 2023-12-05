@@ -21,6 +21,9 @@ namespace Omega\Database\Migration\Field;
 /**
  * Field interface.
  *
+ * Thie `FieldInterface` defines the contract for database migration field classes,
+ * providing methods to determine if the field is nullable or alterable.
+ *
  * @category    Omega
  * @package     Omega\Database
  * @subpackage  Omega\Database\Migration\Field

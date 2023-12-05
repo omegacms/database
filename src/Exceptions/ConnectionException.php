@@ -24,9 +24,11 @@ namespace Omega\Database\Exceptions;
 use InvalidArgumentException;
 
 /**
- * Adapter configuration exception class.
+ * Connection exception class.
  *
- * This exception throws if the connection is not properly configured.
+ * The `ConnectionException` thrown for improperly configured database connections.
+ * This exception is a subclass of InvalidArgumentException and is used to represent
+ * errors that occur when a database connection is not properly configured.
  *
  * @category    Omega
  * @package     Omega\Database

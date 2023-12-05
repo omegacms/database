@@ -30,6 +30,10 @@ use Omega\ServiceProvider\ServiceProviderInterface;
 /**
  * Database service provider class.
  *
+ * The `DatabaseServiceProvider` class managing the database connection. This service
+ * provider is responsible for creating and managing instances of the DatabaseFactory
+ * and providing drivers for different database types such as SQLite and MySQL.
+ *
  * @category    Omega
  * @package     Omega\Database
  * @subpackage  Omega\Database\ServiceProvider
@@ -42,7 +46,7 @@ use Omega\ServiceProvider\ServiceProviderInterface;
 class DatabaseServiceProvider extends AbstractServiceProvider
 {
     /**
-     * Get the service name.
+     * @inheritdoc
      *
      * @return string Return the service name.
      */
@@ -52,7 +56,7 @@ class DatabaseServiceProvider extends AbstractServiceProvider
     }
 
     /**
-     * Get the service factory.
+     * @inheritdoc
      *
      * @return mixed
      */
@@ -62,7 +66,7 @@ class DatabaseServiceProvider extends AbstractServiceProvider
     }
 
     /**
-     * Get drivers.
+     * @inheritdoc
      *
      * @return array Return an array of drivers for the service.
      */

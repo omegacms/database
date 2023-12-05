@@ -24,9 +24,11 @@ namespace Omega\Database\Exceptions;
 use PDOException;
 
 /**
- * Connection exception class.
+ * Adapter exception class.
  *
- * This exception throws when an error occurred during connection.
+ * The `AdapterException` thrown for database adapter-related errors.
+ * This exception is a subclass of PDOException and is used to represent
+ * errors that occur specifically in the context of database adapters.
  *
  * @category    Omega
  * @package     Omega\Database

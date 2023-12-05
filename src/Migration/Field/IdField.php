@@ -26,6 +26,8 @@ use Omega\Database\Exceptions\MigrationException;
 /**
  * ID field class.
  *
+ * The `IdField` epresents a string field for database migrations.
+ *
  * @category    Omega
  * @package     Omega\Database
  * @subpackage  Omega\Database\Migration\Field
@@ -38,10 +40,10 @@ use Omega\Database\Exceptions\MigrationException;
 class IdField extends AbstractField
 {
     /**
-     * Set the default value for field.
+     * Set the default value for float field.
      *
-     * @return mixed
-     * @throws MigrationException if attempt to set a default value on id field.
+     * @param  bool $value Holds the default value for the id field.
+     * @return $this Returns the current instance for method chaining.
      */
     public function default() : mixed
     {

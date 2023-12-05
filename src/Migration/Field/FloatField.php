@@ -21,6 +21,8 @@ namespace Omega\Database\Migration\Field;
 /**
  * Float field class.
  *
+ * The `FloatField` epresents a string field for database migrations.
+ *
  * @category    Omega
  * @package     Omega\Database
  * @subpackage  Omega\Database\Migration\Field
@@ -33,17 +35,17 @@ namespace Omega\Database\Migration\Field;
 class FloatField extends AbstractField
 {
     /**
-     * Default value.
+     * Default value for the float field.
      *
-     * @var ?float $default Holds the default value or null.
+     * @var ?string $default Holds the default value or null.
      */
     public ?float $default = null;
 
     /**
-     * Set the default value for field.
+     * Set the default value for float field.
      *
-     * @param  float $value Holds the field value.
-     * @return $this
+     * @param  bool $value Holds the default value for the float field.
+     * @return $this Returns the current instance for method chaining.
      */
     public function default( float $value ) : static
     {

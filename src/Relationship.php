@@ -26,6 +26,11 @@ use Omega\Model\ModelCollector;
 /**
  * Relationship class.
  *
+ * The `RelationShip` class represents relationship between models. This
+ * class facilities relationship between models, providing a way to call
+ * method on a ModelCollector instance and act as a callable object or
+ * delegate method calls to the underlying ModelCollector.
+ *
  * @category    Omega
  * @package     Omega\Database
  * @link        https://omegacms.github.com

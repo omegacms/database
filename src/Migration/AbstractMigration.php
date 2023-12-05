@@ -32,6 +32,9 @@ use Omega\Database\Migration\Field\TextField;
 /**
  * Abstract migration class.
  *
+ * The `AbstractMigration` class provides a foundation for creating database
+ * migrations with various field types.
+ *
  * @category    Omega
  * @package     Omega\Database
  * @subpackage  Omega\Database\Migration
@@ -51,7 +54,7 @@ abstract class AbstractMigration implements MigrationInterface
     protected array $fields = [];
 
     /**
-     * Set the boolean field.
+     * @inheritdoc
      *
      * @param  string $name Holds the field name.
      * @return BoolField Return an instance of BoolField.
@@ -62,7 +65,7 @@ abstract class AbstractMigration implements MigrationInterface
     }
 
     /**
-     * Set the boolean field.
+     * @inheritdoc
      *
      * @param  string $name Holds the field name.
      * @return DateTimeField Return an instance of DateTimeField.
@@ -73,7 +76,7 @@ abstract class AbstractMigration implements MigrationInterface
     }
 
     /**
-     * Set the boolean field.
+     * @inheritdoc
      *
      * @param  string $name Holds the field name.
      * @return FloatField Return an instance of FloatField.
@@ -84,7 +87,7 @@ abstract class AbstractMigration implements MigrationInterface
     }
 
     /**
-     * Set the boolean field.
+     * @inheritdoc
      *
      * @param  string $name Holds the field name.
      * @return IdField Return an instance of IdField.
@@ -95,7 +98,7 @@ abstract class AbstractMigration implements MigrationInterface
     }
 
     /**
-     * Set the boolean field.
+     * @inheritdoc
      *
      * @param  string $name Holds the field name.
      * @return IntField Return an instance of IntField.
@@ -106,7 +109,7 @@ abstract class AbstractMigration implements MigrationInterface
     }
 
     /**
-     * Set the boolean field.
+     * @inheritdoc
      *
      * @param  string $name Holds the field name.
      * @return StringField Return an instance of StringField.
@@ -117,7 +120,7 @@ abstract class AbstractMigration implements MigrationInterface
     }
 
     /**
-     * Set the boolean field.
+     * @inheritdoc
      *
      * @param  string $name Holds the field name.
      * @return TextField Return an instance of TextField.
@@ -128,14 +131,14 @@ abstract class AbstractMigration implements MigrationInterface
     }
 
     /**
-     * Execute migration.
+     * inheritdoc
      *
      * @return void
      */
     abstract public function execute() : void;
 
     /**
-     * Drop column.
+     * @inheritdoc
      *
      * @param  string $name Holds the column name.
      * @return $this

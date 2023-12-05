@@ -26,7 +26,10 @@ use PDOException;
 /**
  * Migration exception class.
  *
- * This exception throws when an error occurred during migration.
+ * The `MigrationException` thrown for migration-related errors.
+ * This exception is a subclass of PDOException and is used to
+ * represent errors that occur specifically in the context of
+ * database migrations.
  *
  * @category    Omega
  * @package     Omega\Database

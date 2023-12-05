@@ -28,8 +28,9 @@ use Pdo;
 /**
  * Database Adapter Interface.
  *
- * This interface defines the contract for database adapter classes, which provide
- * a set of methods for interacting with a database.
+ * The `DatabaseAdapterInterface` defines the contract for database
+ * adapter classes, which provide a set of methods for interacting
+ * with a database.
  *
  * @category    Omega
  * @package     Omega\Database

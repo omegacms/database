@@ -21,6 +21,9 @@ namespace Omega\Database;
 /**
  * TableName class.
  *
+ * This `TableName` class represents a table name in the Omgea CMS package.
+ * This class encapsulates the name of a database table.
+ *
  * @category    Omega
  * @package     Omega\Database
  * @link        https://omegacms.github.com
@@ -34,14 +37,14 @@ class TableName
     /**
      * Table name.
      *
-     * @var string $name Holds the table name.
+     * @var string $name Holds the name of the database table.
      */
     public string $name;
 
     /**
      * TableName class constructor.
      *
-     * @param  string $name Holds the table name.
+     * @param  string $name Holds the name of the database table.
      * @return void
      */
     public function __construct( string $name )

@@ -21,6 +21,8 @@ namespace Omega\Database\Migration\Field;
 /**
  * Integer field class.
  *
+ * The `IntField` epresents a string field for database migrations.
+ *
  * @category    Omega
  * @package     Omega\Database
  * @subpackage  Omega\Database\Migration\Field
@@ -33,17 +35,17 @@ namespace Omega\Database\Migration\Field;
 class IntField extends AbstractField
 {
     /**
-     * Default value.
+     * Default value for the int field.
      *
-     * @var ?int $default Holds the default value or null.
+     * @var ?string $default Holds the default value or null.
      */
     public ?int $default = null;
 
     /**
-     * Set the default value for field.
+     * Set the default value for int field.
      *
-     * @param  int $value Holds the field value.
-     * @return $this
+     * @param  bool $value Holds the default value for the int field.
+     * @return $this Returns the current instance for method chaining.
      */
     public function default( int $value ) : static
     {

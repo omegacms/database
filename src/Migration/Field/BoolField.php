@@ -21,6 +21,8 @@ namespace Omega\Database\Migration\Field;
 /**
  * Boolean field class.
  *
+ * The `BoolField` epresents a boolean field for database migrations.
+ *
  * @category    Omega
  * @package     Omega\Database
  * @subpackage  Omega\Database\Migration\Field
@@ -33,17 +35,17 @@ namespace Omega\Database\Migration\Field;
 class BoolField extends AbstractField
 {
     /**
-     * Default value.
+     * Default value for the boolean field.
      *
      * @var ?bool $default Holds the default value or null.
      */
     public ?bool $default = null;
 
     /**
-     * Set the default value for field.
+     * Set the default value for boolean field.
      *
-     * @param  bool $value Holds the field value.
-     * @return $this
+     * @param  bool $value Holds the default value for the booelean field.
+     * @return $this Returns the current instance for method chaining.
      */
     public function default( bool $value ) : static
     {

@@ -21,6 +21,10 @@ namespace Omega\Database\Migration\Field;
 /**
  * Abstract field class.
  *
+ * The `AbstractField` class serves as the base for all database migration
+ * fields, providing common functionality such as nullable and alterable
+ * properties.
+ *
  * @category    Omega
  * @package     Omega\Database
  * @subpackage  Omega\Database\Migration\Field
@@ -65,7 +69,7 @@ abstract class AbstractField implements FieldInterface
     }
 
     /**
-     * Determine if the field is nullable.
+     * @inheritdoc
      *
      * @return $this
      */
@@ -77,7 +81,7 @@ abstract class AbstractField implements FieldInterface
     }
 
     /**
-     * Determine if the field is alterable.
+     * @inheritdoc
      *
      * @return $this
      */

@@ -32,6 +32,9 @@ use Omega\Database\Migration\Field\TextField;
 /**
  * Migration interface.
  *
+ * The `MigrationInterface` defines methods for specifying fields and
+ * executing migrations on a database.
+ *
  * @category    Omega
  * @package     Omega\Database
  * @subpackage  Omega\Database\Migration
