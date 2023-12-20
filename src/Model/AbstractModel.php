@@ -29,7 +29,9 @@ use Omega\Database\TableName;
 use ReflectionClass;
 
 /**
- * Abstract class providing the base for model class.
+ * Abstract model class.
+ *
+ * The AbstractModel class providing the base for model class.
  *
  * @category    Omega
  * @package     Omega\Database
