@@ -16,7 +16,7 @@
 /**
  * @namespace
  */
-namespace Omega\QueryBuilder;
+namespace Omega\Database\QueryBuilder;
 
 /**
  * @use
