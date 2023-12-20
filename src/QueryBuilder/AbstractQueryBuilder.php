@@ -1,0 +1,436 @@
+<?php
+/**
+ * Part of Omega CMS -  Database Package
+ *
+ * @link       https://omegacms.github.io
+ * @author     Adriano Giovannini <omegacms@outlook.com>
+ * @copyright  Copyright (c) 2022 Adriano Giovannini. (https://omegacms.github.io)
+ * @license    https://www.gnu.org/licenses/gpl-3.0-standalone.html     GPL V3.0+
+ */
+
+/**
+ * @declare
+ */
+//declare( strict_types = 1 );
+
+/**
+ * @namespace
+ */
+namespace Omega\QueryBuilder;
+
+/**
+ * @use
+ */
+use function array_map;
+use function array_push;
+use function count;
+use function join;
+use function is_null;
+use function is_string;
+use Omega\Database\Exceptions\QueryException;
+use Pdo;
+use PdoStatement;
+
+/**
+ * Abstract query builder class.
+ *
+ * @category    Omega
+ * @package     Omega\QueryBuilder
+ * @link        https://omegacms.github.com
+ * @author      Adriano Giovannini <omegacms@outlook.com>
+ * @copyright   Copyright (c) 2022 Adriano Giovannini. (https://omegacms.github.com)
+ * @license     https://www.gnu.org/licenses/gpl-3.0-standalone.html     GPL V3.0+
+ * @version     1.0.0
+ */
+abstract class AbstractQueryBuilder
+{
+    /**
+     * Query type.
+     *
+     * @var string $type Holds the query type.
+     */
+    protected string $type;
+
+    /**
+     * Columns.
+     *
+     * @var array $columns Holds an array of columns.
+     */
+    protected array $columns;
+
+    /**
+     * Table name.
+     *
+     * @var string $table Holds the table name.
+     */
+    protected string $table;
+
+    /**
+     * Limit.
+     *
+     * @var int $limit Holds the limit.
+     */
+    protected int $limit;
+
+    /**
+     * Offset.
+     *
+     * @var int $offset Holds the offset.
+     */
+    protected int $offset;
+
+    /**
+     * Values array.
+     *
+     * @var array $values Holds an array of values for the query.
+     */
+    protected array $values;
+
+    /**
+     * Wheres array.
+     *
+     * @var array $wheres Holds an array of wheres clause.
+     */
+    protected array $wheres = [];
+
+    /**
+     * Fetch all rows matching the current query.
+     *
+     * @return array Return all row in database.
+     */
+    public function all() : array
+    {
+        if ( ! isset( $this->type ) ) {
+            $this->select();
+        }
+
+        $statement = $this->prepare();
+        $statement->execute( $this->getWhereValues() );
+
+        return $statement->fetchAll( Pdo::FETCH_ASSOC );
+    }
+
+    /**
+     * Get the values for the where clause placeholders.
+     *
+     * @return array Return an array of result based on where clause.
+     */
+    protected function getWhereValues() : array
+    {
+        $values = [];
+
+        if ( count( $this->wheres ) === 0 ) {
+            return $values;
+        }
+
+        foreach ( $this->wheres as $where ) {
+            $values[ $where[ 0 ] ] = $where[ 2 ];
+        }
+
+        return $values;
+    }
+
+    /**
+     * Prepare a query against a particular connection.
+     *
+     * @return PdoStatement Return an instance of PdoStatement.
+     * @throws QueryException if unrecognized query type.
+     */
+    public function prepare() : PdoStatement
+    {
+        $query = '';
+
+        if ( $this->type === 'select' ) {
+            $query = $this->compileSelect( $query );
+            $query = $this->compileWheres( $query );
+            $query = $this->compileLimit( $query );
+        }
+
+        if ( $this->type === 'insert' ) {
+            $query = $this->compileInsert( $query );
+        }
+
+        if ( $this->type === 'update' ) {
+            $query = $this->compileUpdate( $query );
+            $query = $this->compileWheres( $query );
+        }
+
+        if ( $this->type === 'delete' ) {
+            $query = $this->compileDelete( $query );
+            $query = $this->compileWheres( $query );
+        }
+
+        if ( empty( $query ) ) {
+            throw new QueryException(
+                'Unrecognised query type'
+            );
+        }
+
+        return $this->connection->pdo()->prepare( $query );
+    }
+
+    /**
+     * Add select clause to the query.
+     *
+     * @param  string $query Holds the query data.
+     * @return string Return the compiled select clause.
+     */
+    protected function compileSelect( string $query ) : string
+    {
+        $joinedColumns = join( ', ', $this->columns );
+
+        $query .= " SELECT {$joinedColumns} FROM {$this->table}";
+
+        return $query;
+    }
+
+    /**
+     * Add limit and offset clauses to the query.
+     *
+     * @param  string $query Holds the query data.
+     * @return string Return the compiled limit clause.
+     */
+    protected function compileLimit( string $query ) : string
+    {
+        if ( isset( $this->limit ) ) {
+            $query .= " LIMIT {$this->limit}";
+        }
+
+        if ( isset( $this->offset ) ) {
+            $query .= " OFFSET {$this->offset}";
+        }
+
+        return $query;
+    }
+
+    /**
+     * Add where clauses to the query.
+     *
+     * @param  string $query Holds the query data.
+     * @return string Return the compiled where clause.
+     */
+    protected function compileWheres( string $query ) : string
+    {
+        if ( count( $this->wheres ) === 0 ) {
+            return $query;
+        }
+
+        $query .= ' WHERE';
+
+        foreach ( $this->wheres as $i => $where ) {
+            if ( $i > 0 ) {
+                $query .= ', ';
+            }
+
+            [ $column, $comparator, $value ] = $where;
+
+            $query .= " {$column} {$comparator} :{$column}";
+        }
+
+        return $query;
+    }
+
+    /**
+     * Add insert clause to the query.
+     *
+     * @param  string $query Holds the query data.
+     * @return string Return the compiled insert clause.
+     */
+    protected function compileInsert( string $query ) : string
+    {
+        $joinedColumns = join( ', ', $this->columns );
+        $joinedPlaceholders = join( ', ', array_map( fn( $column ) => ":{$column}", $this->columns ) );
+
+        $query .= " INSERT INTO {$this->table} ({$joinedColumns}) VALUES ({$joinedPlaceholders})";
+
+        return $query;
+    }
+
+    /**
+     * Add update clause to the query.
+     *
+     * @param  string $query Holds the query data.
+     * @return string Return the compiled update clause.
+     */
+    protected function compileUpdate( string $query ) : string
+    {
+        $joinedColumns = '';
+
+        foreach ( $this->columns as $i => $column ) {
+            if ( $i > 0 ) {
+                $joinedColumns .= ', ';
+            }
+
+            $joinedColumns = " {$column} = :{$column}";
+        }
+
+        $query .= " UPDATE {$this->table} SET {$joinedColumns}";
+
+        return $query;
+    }
+
+    /**
+     * Add delete clause to the query.
+     *
+     * @param  string $query Holds the query data.
+     * @return string Return the compiled delete clause.
+     */
+    protected function compileDelete( string $query ) : string
+    {
+        $query .= " DELETE FROM {$this->table}";
+
+        return $query;
+    }
+
+    /**
+     * Fetch the first row matching the current query.
+     *
+     * @return ?array Return an array with the first row or null.
+     */
+    public function first() : ?array
+    {
+        if ( ! isset( $this->type ) ) {
+            $this->select();
+        }
+
+        $statement = $this->take( 1 )->prepare();
+        $statement->execute( $this->getWhereValues() );
+
+        $result = $statement->fetchAll( Pdo::FETCH_ASSOC );
+
+        if ( count( $result ) === 1 ) {
+            return $result[ 0 ];
+        }
+
+        return null;
+    }
+
+    /**
+     * Limit a set of query results so that it's possible
+     * to fetch a single or limited batch of rows.
+     *
+     * @param  int $limit  Holds the limit for the set of query result.
+     * @param  int $offset Holds the offset.
+     * @return $this
+     */
+    public function take( int $limit, int $offset = 0 ) : static
+    {
+        $this->limit = $limit;
+        $this->offset = $offset;
+
+        return $this;
+    }
+
+    /**
+     * Indicate which table the query is targeting.
+     *
+     * @param  string $table Holds the table name.
+     * @return $this
+     */
+    public function from( string $table ) : static
+    {
+        $this->table = $table;
+
+        return $this;
+    }
+
+    /**
+     * Indicate the query type is a "select" and remember
+     * which fields should be returned by the query.
+     *
+     * @param  mixed $columns Holds the column name.
+     * @return $this
+     */
+    public function select( mixed $columns = '*' ) : static
+    {
+        if ( is_string( $columns ) ) {
+            $columns = [ $columns ];
+        }
+
+        $this->type = 'select';
+        $this->columns = $columns;
+
+        return $this;
+    }
+
+    /**
+     * Insert a row of data into the table specified in the query
+     * and return the number of affected rows.
+     *
+     * @param  array $columns Holds an array of columns.
+     * @param  array $values  Holds an array of values.
+     * @return int Return the number of affected rows.
+     */
+    public function insert( array $columns, array $values ) : int
+    {
+        $this->type = 'insert';
+        $this->columns = $columns;
+        $this->values = $values;
+
+        $statement = $this->prepare();
+
+        return $statement->execute( $values );
+    }
+
+    /**
+     * Store where clause data for later queries.
+     *
+     * @param  string $column     Holds the column name.
+     * @param  mixed  $comparator Holds the column comparator.
+     * @param  mixed  $value      Holds the data to store or null.
+     * @return $this
+     */
+    public function where( string $column, mixed $comparator, mixed $value = null ) : static
+    {
+        if ( is_null( $value ) && ! is_null( $comparator ) ) {
+            array_push( $this->wheres, [ $column, '=', $comparator ] );
+        } else {
+            array_push( $this->wheres, [ $column, $comparator, $value ] );
+        }
+
+        return $this;
+    }
+
+    /**
+     * Insert a row of data into the table specified in the query
+     * and return the number of affected rows.
+     *
+     * @param  array $columns Holds an array of columns.
+     * @param  array $values  Holds an array of values.
+     * @return int Return the number of affected rows.
+     */
+    public function update( array $columns, array $values ) : int
+    {
+        $this->type = 'update';
+        $this->columns = $columns;
+        $this->values = $values;
+
+        $statement = $this->prepare();
+
+        return $statement->execute( $this->getWhereValues() + $values );
+    }
+
+    /**
+     * Get the ID of the last row that was inserted.
+     *
+     * @return string Return the last insert id.
+     */
+    public function getLastInsertId() : string
+    {
+        return $this->connection->pdo()->lastInsertId();
+    }
+
+    /**
+     * Delete a row from the database.
+     *
+     * @return int
+     */
+    public function delete() : int
+    {
+        $this->type = 'delete';
+
+        $statement = $this->prepare();
+
+        return $statement->execute( $this->getWhereValues() );
+    }
+}

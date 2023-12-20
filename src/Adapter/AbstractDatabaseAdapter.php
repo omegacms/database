@@ -23,7 +23,7 @@ namespace Omega\Database\Adapter;
  */
 use function in_array;
 use Omega\Database\Migration\AbstractMigration;
-use Omega\QueryBuilder\AbstractQueryBuilder;
+use Omega\Database\QueryBuilder\AbstractQueryBuilder;
 use Pdo;
 
 /**

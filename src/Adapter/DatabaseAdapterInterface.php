@@ -22,7 +22,7 @@ namespace Omega\Database\Adapter;
  * @use
  */
 use Omega\Database\Migration\AbstractMigration;
-use Omega\QueryBuilder\AbstractQueryBuilder;
+use Omega\Database\QueryBuilder\AbstractQueryBuilder;
 use Pdo;
 
 /**

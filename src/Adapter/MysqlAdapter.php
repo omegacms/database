@@ -24,7 +24,7 @@ namespace Omega\Database\Adapter;
 use function array_map;
 use Omega\Database\Exceptions\ConnectionException;
 use Omega\Database\Migration\MysqlMigration;
-use Omega\QueryBuilder\MysqlQueryBuilder;
+use Omega\Database\QueryBuilder\MysqlQueryBuilder;
 use Pdo;
 
 /**

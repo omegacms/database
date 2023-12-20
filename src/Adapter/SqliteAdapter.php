@@ -25,7 +25,7 @@ use function array_map;
 use function file_put_contents;
 use Omega\Database\Exceptions\ConnectionException;
 use Omega\Database\Migration\SqliteMigration;
-use Omega\QueryBuilder\SqliteQueryBuilder;
+use Omega\Database\QueryBuilder\SqliteQueryBuilder;
 use Pdo;
 
 /**
