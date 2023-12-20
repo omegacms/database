@@ -35,7 +35,8 @@ use PdoStatement;
  * Abstract query builder class.
  *
  * @category    Omega
- * @package     Omega\QueryBuilder
+ * @package     Omega\Database
+ * @subpackage  Omega\Database\QueryBuilder
  * @link        https://omegacms.github.com
  * @author      Adriano Giovannini <omegacms@outlook.com>
  * @copyright   Copyright (c) 2022 Adriano Giovannini. (https://omegacms.github.com)

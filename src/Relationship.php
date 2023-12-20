@@ -21,7 +21,7 @@ namespace Omega\Database;
 /**
  * @use
  */
-use Omega\Model\ModelCollector;
+use Omega\Database\Model\ModelCollector;
 
 /**
  * Relationship class.

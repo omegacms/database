@@ -27,13 +27,14 @@ use Omega\Database\Adapter\SqliteAdapter;
  * Mysql query builder class.
  *
  * @category    Omega
- * @package     Omega\QueryBuilder
+ * @package     Omega\Database
+ * @subpackage  Omega\Database\QueryBuilder
  * @link        https://omegacms.github.com
  * @author      Adriano Giovannini <omegacms@outlook.com>
  * @copyright   Copyright (c) 2022 Adriano Giovannini. (https://omegacms.github.com)
  * @license     https://www.gnu.org/licenses/gpl-3.0-standalone.html     GPL V3.0+
  * @version     1.0.0
- */;
+ */
 class SqliteQueryBuilder extends AbstractQueryBuilder
 {
     /**
