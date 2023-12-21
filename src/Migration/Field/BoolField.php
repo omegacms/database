@@ -21,7 +21,7 @@ namespace Omega\Database\Migration\Field;
 /**
  * Boolean field class.
  *
- * The `BoolField` epresents a boolean field for database migrations.
+ * The `BoolField` represents a boolean field for database migrations.
  *
  * @category    Omega
  * @package     Omega\Database

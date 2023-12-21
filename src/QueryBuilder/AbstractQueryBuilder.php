@@ -34,6 +34,10 @@ use PdoStatement;
 /**
  * Abstract query builder class.
  *
+ * The `AbstractQueryBuilder` class provides a foundation for building SQL queries
+ * in an object-oriented manner. It supports various common SQL operations,
+ * including SELECT, INSERT, UPDATE, and DELETE queries. *
+ *
  * @category    Omega
  * @package     Omega\Database
  * @subpackage  Omega\Database\QueryBuilder
@@ -97,7 +101,7 @@ abstract class AbstractQueryBuilder
     /**
      * Fetch all rows matching the current query.
      *
-     * @return array Return all row in database.
+     * @return array Returns an array containing all rows in the database.
      */
     public function all() : array
     {
@@ -286,7 +290,7 @@ abstract class AbstractQueryBuilder
     /**
      * Fetch the first row matching the current query.
      *
-     * @return ?array Return an array with the first row or null.
+     * @return ?array Returns an array with the first row or null if no rows are found.
      */
     public function first() : ?array
     {
@@ -307,11 +311,10 @@ abstract class AbstractQueryBuilder
     }
 
     /**
-     * Limit a set of query results so that it's possible
-     * to fetch a single or limited batch of rows.
+     * Limit a set of query results to fetch a single or a limited batch of rows.
      *
-     * @param  int $limit  Holds the limit for the set of query result.
-     * @param  int $offset Holds the offset.
+     * @param  int $limit  The limit for the set of query results.
+     * @param  int $offset The offset.
      * @return $this
      */
     public function take( int $limit, int $offset = 0 ) : static

@@ -26,7 +26,7 @@ use Omega\Database\Exceptions\MigrationException;
 /**
  * ID field class.
  *
- * The `IdField` epresents a string field for database migrations.
+ * The `IdField` represents a string field for database migrations.
  *
  * @category    Omega
  * @package     Omega\Database

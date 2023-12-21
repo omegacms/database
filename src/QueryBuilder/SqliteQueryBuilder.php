@@ -26,6 +26,10 @@ use Omega\Database\Adapter\SqliteAdapter;
 /**
  * Mysql query builder class.
  *
+ * This `SqliteQueryBuilder` class provides methods to build and execute Sqlite queries. It extends
+ *  the abstract query builder class, implementing Sqlite-specific functionality. It is designed to
+ *  work with the SqliteAdapter for database connections.
+ *
  * @category    Omega
  * @package     Omega\Database
  * @subpackage  Omega\Database\QueryBuilder
@@ -47,7 +51,7 @@ class SqliteQueryBuilder extends AbstractQueryBuilder
     /**
      * SqliteQueryBuilder class constructor.
      *
-     * @param  SqliteAdapter $connection Holds the Sqlite connection object.
+     * @param  SqliteAdapter $connection Holds an instance of the SqliteAdapter for database connection.
      * @return void
      */
     public function __construct( SqliteAdapter $connection )

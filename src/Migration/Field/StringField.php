@@ -21,7 +21,7 @@ namespace Omega\Database\Migration\Field;
 /**
  * String field class.
  *
- * The `StringField` epresents a string field for database migrations.
+ * The `StringField` represents a string field for database migrations.
  *
  * @category    Omega
  * @package     Omega\Database

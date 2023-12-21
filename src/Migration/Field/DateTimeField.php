@@ -21,7 +21,7 @@ namespace Omega\Database\Migration\Field;
 /**
  * String field class.
  *
- * The `DateTimeField` epresents a string field for database migrations.
+ * The `DateTimeField` represents a string field for database migrations.
  *
  * @category    Omega
  * @package     Omega\Database

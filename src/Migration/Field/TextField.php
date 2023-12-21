@@ -26,6 +26,8 @@ use Omega\Database\Exceptions\MigrationException;
 /**
  * Text field class.
  *
+ * The `TextField` represents a text field for database migrations.
+ *
  * @category    Omega
  * @package     Omega\Database
  * @subpackage  Omega\Database\Migration\Field

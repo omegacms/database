@@ -21,7 +21,7 @@ namespace Omega\Database\Migration\Field;
 /**
  * Integer field class.
  *
- * The `IntField` epresents a string field for database migrations.
+ * The `IntField` represents a string field for database migrations.
  *
  * @category    Omega
  * @package     Omega\Database

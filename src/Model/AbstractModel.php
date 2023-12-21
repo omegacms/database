@@ -31,7 +31,7 @@ use ReflectionClass;
 /**
  * Abstract model class.
  *
- * The AbstractModel class providing the base for model class.
+ * The `AbstractModel` class providing the base for model class.
  *
  * @category    Omega
  * @package     Omega\Database

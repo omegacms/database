@@ -26,6 +26,10 @@ use Omega\Database\Adapter\MysqlAdapter;
 /**
  * Mysql query builder class.
  *
+ * This `MysqlQueryBuilder` class provides methods to build and execute MySQL queries. It extends
+ * the abstract query builder class, implementing MySQL-specific functionality. It is designed to
+ * work with the MySQLAdapter for database connections.
+ *
  * @category    Omega
  * @package     Omega\Database
  * @subpackage  Omega\Database\QueryBuilder
@@ -38,16 +42,16 @@ use Omega\Database\Adapter\MysqlAdapter;
 class MysqlQueryBuilder extends AbstractQueryBuilder
 {
     /**
-     * Mysql connection object.
+     * MySQL connection object.
      *
-     * @var MysqlAdapter $connection Holds the Mysql connection object.
+     * @var MysqlAdapter $connection Holds an instance of the MySQL connection object.
      */
     protected MysqlAdapter $connection;
 
     /**
      * MysqlQueryBuilder class constructor.
      *
-     * @param  MysqlAdapter $connection Holds the Mysql connection object.
+     * @param  MysqlAdapter $connection Holds an instance of the MySQLAdapter for database connection.
      * @return void
      */
     public function __construct( MysqlAdapter $connection )

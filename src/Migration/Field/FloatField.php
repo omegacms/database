@@ -21,7 +21,7 @@ namespace Omega\Database\Migration\Field;
 /**
  * Float field class.
  *
- * The `FloatField` epresents a string field for database migrations.
+ * The `FloatField` represents a string field for database migrations.
  *
  * @category    Omega
  * @package     Omega\Database
