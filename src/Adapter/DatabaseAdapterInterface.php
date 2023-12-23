@@ -35,7 +35,7 @@ use Pdo;
  * @category    Omega
  * @package     Omega\Database
  * @subpackage  Omega\Database\Adapter
- * @link        https://omegacms.github.com
+ * @link        https://omegacms.github.io
  * @author      Adriano Giovannini <omegacms@outlook.com>
  * @version     1.0.0
  * @license     https://www.gnu.org/licenses/gpl-3.0-standalone.html     GPL V3.0+
