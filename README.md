@@ -1,6 +1,6 @@
 # Database Package
 
-The Config package provides the libraries to link and manipulate the data contained in the databases.
+The Database package provides the libraries to link and manipulate the data contained in the databases.
 
 ## Requirements
 
