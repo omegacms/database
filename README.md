@@ -28,7 +28,7 @@ composer require omegacms/database
 
 ## Contributing
 
-If you'd like to contribute to the OmegaCMS Routing package, please follow our [contribution guidelines](CONTRIBUTING.md).
+If you'd like to contribute to the OmegaCMS Database package, please follow our [contribution guidelines](CONTRIBUTING.md).
 
 ## License
 
