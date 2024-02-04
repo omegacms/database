@@ -24,9 +24,10 @@ namespace Omega\Database\Commands;
 use function getcwd;
 use function glob;
 use Omega\Database\Adapter\AbstractDatabaseAdapter;
-use Omega\Database\Adapter\MysqlAdapter;
-use Omega\Database\Adapter\SqliteAdapter;
-use Omega\Database\DatabaseFactory;
+//use Omega\Database\Adapter\MysqlAdapter;
+//use Omega\Database\Adapter\SqliteAdapter;
+//use Omega\Database\DatabaseFactory;
+use Omega\Helpers\App;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -94,13 +95,13 @@ class MigrateCommand extends Command
             return Command::SUCCESS;
         }
 
-        $connection = $this->connection();
+        $connection = App::application('database');
 
         if ( $input->getOption( 'fresh' ) ) {
             $output->writeln( 'Dropping existing database tables' );
 
             $connection->dropTables();
-            $connection = $this->connection();
+            $connection = App::application('database');
         }
 
         if ( ! $connection->hasTable( 'migrations' ) ) {
@@ -126,31 +127,6 @@ class MigrateCommand extends Command
         }
 
         return Command::SUCCESS;
-    }
-
-    /**
-     * Connect to the database.
-     *
-     * This method initializes and connects to the database using the provided
-     * configuration.
-     *
-     * @return AbstractDatabaseAdapter Return an instance of AbstractDatabaseAdapter.
-     */
-    private function connection() : AbstractDatabaseAdapter
-    {
-        $factory = new DatabaseFactory();
-
-        $factory->register( 'mysql', function ( $config ) {
-            return new MysqlAdapter( $config );
-        } );
-
-        $factory->register( 'sqlite', function ( $config ) {
-            return new SqliteAdapter( $config );
-        } );
-
-        $config = require getcwd() . '/config/database.php';
-
-        return $factory->bootstrap( $config[ $config[ 'default' ] ] );
     }
 
     /**
