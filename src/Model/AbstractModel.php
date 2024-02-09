@@ -21,11 +21,11 @@ namespace Omega\Database\Model;
 /**
  * @use
  */
-use Exception;
-use Omega\Helpers\App;
+use function Omega\Helpers\app;
 use Omega\Database\Adapter\AbstractDatabaseAdapter;
 use Omega\Database\Relationship;
 use Omega\Database\TableName;
+use Exception;
 use ReflectionClass;
 
 /**
@@ -100,7 +100,7 @@ abstract class AbstractModel
     public function getConnection() : AbstractDatabaseAdapter
     {
         if ( ! isset( $this->connection ) ) {
-            $this->connection = App::application( 'database' );
+            $this->connection = app( 'database' );
         }
 
         return $this->connection;
