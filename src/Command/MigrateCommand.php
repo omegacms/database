@@ -89,7 +89,7 @@ class MigrateCommand extends Command
         $paths = glob( "{$current}/{$pattern}" );
 
         if ( count( $paths ) < 1 ) {
-            $this->writeln( 'No migrations found' );
+            $output->writeln( 'No migrations found' );
             return Command::SUCCESS;
         }
 
