@@ -11,7 +11,7 @@
 /**
  * @declare
  */
-//declare( strict_types = 1 );
+declare( strict_types = 1 );
 
 /**
  * @namespace
@@ -224,7 +224,7 @@ abstract class AbstractQueryBuilder
 
         foreach ( $this->wheres as $i => $where ) {
             if ( $i > 0 ) {
-                $query .= ', ';
+                $query .= ' AND ';
             }
 
             [ $column, $comparator, $value ] = $where;
@@ -363,9 +363,9 @@ abstract class AbstractQueryBuilder
      *
      * @param  array $columns Holds an array of columns.
      * @param  array $values  Holds an array of values.
-     * @return int Return the number of affected rows.
+     * @return int|bool Return the number of affected rows.
      */
-    public function insert( array $columns, array $values ) : int
+    public function insert( array $columns, array $values ) : int|bool
     {
         $this->type = 'insert';
         $this->columns = $columns;
@@ -401,9 +401,9 @@ abstract class AbstractQueryBuilder
      *
      * @param  array $columns Holds an array of columns.
      * @param  array $values  Holds an array of values.
-     * @return int Return the number of affected rows.
+     * @return int|bool Return the number of affected rows.
      */
-    public function update( array $columns, array $values ) : int
+    public function update( array $columns, array $values ) : int|bool
     {
         $this->type = 'update';
         $this->columns = $columns;
