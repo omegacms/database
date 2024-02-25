@@ -47,7 +47,7 @@ use PdoStatement;
  * @license     https://www.gnu.org/licenses/gpl-3.0-standalone.html     GPL V3.0+
  * @version     1.0.0
  */
-abstract class AbstractQueryBuilder
+abstract class AbstractQueryBuilder implements QueryBuilderInterface
 {
     /**
      * Query type.
@@ -92,14 +92,14 @@ abstract class AbstractQueryBuilder
     protected array $values;
 
     /**
-     * Wheres array.
+     * @inheritdoc
      *
      * @var array $wheres Holds an array of wheres clause.
      */
     protected array $wheres = [];
 
     /**
-     * Fetch all rows matching the current query.
+     * @inheritdoc
      *
      * @return array Returns an array containing all rows in the database.
      */
@@ -116,11 +116,11 @@ abstract class AbstractQueryBuilder
     }
 
     /**
-     * Get the values for the where clause placeholders.
+     * @inheritdoc
      *
      * @return array Return an array of result based on where clause.
      */
-    protected function getWhereValues() : array
+    public function getWhereValues() : array
     {
         $values = [];
 
@@ -136,7 +136,7 @@ abstract class AbstractQueryBuilder
     }
 
     /**
-     * Prepare a query against a particular connection.
+     * @inheritdoc
      *
      * @return PdoStatement Return an instance of PdoStatement.
      * @throws QueryException if unrecognized query type.
@@ -175,12 +175,12 @@ abstract class AbstractQueryBuilder
     }
 
     /**
-     * Add select clause to the query.
+     * @inheritdoc
      *
      * @param  string $query Holds the query data.
      * @return string Return the compiled select clause.
      */
-    protected function compileSelect( string $query ) : string
+    public function compileSelect( string $query ) : string
     {
         $joinedColumns = join( ', ', $this->columns );
 
@@ -190,12 +190,12 @@ abstract class AbstractQueryBuilder
     }
 
     /**
-     * Add limit and offset clauses to the query.
+     * @inheritdoc
      *
      * @param  string $query Holds the query data.
      * @return string Return the compiled limit clause.
      */
-    protected function compileLimit( string $query ) : string
+    public function compileLimit( string $query ) : string
     {
         if ( isset( $this->limit ) ) {
             $query .= " LIMIT {$this->limit}";
@@ -209,12 +209,12 @@ abstract class AbstractQueryBuilder
     }
 
     /**
-     * Add where clauses to the query.
+     * @inheritdoc
      *
      * @param  string $query Holds the query data.
      * @return string Return the compiled where clause.
      */
-    protected function compileWheres( string $query ) : string
+    public function compileWheres( string $query ) : string
     {
         if ( count( $this->wheres ) === 0 ) {
             return $query;
@@ -236,12 +236,12 @@ abstract class AbstractQueryBuilder
     }
 
     /**
-     * Add insert clause to the query.
+     * @inheritdoc
      *
      * @param  string $query Holds the query data.
      * @return string Return the compiled insert clause.
      */
-    protected function compileInsert( string $query ) : string
+    public function compileInsert( string $query ) : string
     {
         $joinedColumns = join( ', ', $this->columns );
         $joinedPlaceholders = join( ', ', array_map( fn( $column ) => ":{$column}", $this->columns ) );
@@ -252,12 +252,12 @@ abstract class AbstractQueryBuilder
     }
 
     /**
-     * Add update clause to the query.
+     * @inheritdoc
      *
      * @param  string $query Holds the query data.
      * @return string Return the compiled update clause.
      */
-    protected function compileUpdate( string $query ) : string
+    public function compileUpdate( string $query ) : string
     {
         $joinedColumns = '';
 
@@ -275,12 +275,12 @@ abstract class AbstractQueryBuilder
     }
 
     /**
-     * Add delete clause to the query.
+     * @inheritdoc
      *
      * @param  string $query Holds the query data.
      * @return string Return the compiled delete clause.
      */
-    protected function compileDelete( string $query ) : string
+    public function compileDelete( string $query ) : string
     {
         $query .= " DELETE FROM {$this->table}";
 
@@ -288,7 +288,7 @@ abstract class AbstractQueryBuilder
     }
 
     /**
-     * Fetch the first row matching the current query.
+     * @inheritdoc
      *
      * @return ?array Returns an array with the first row or null if no rows are found.
      */
@@ -311,7 +311,7 @@ abstract class AbstractQueryBuilder
     }
 
     /**
-     * Limit a set of query results to fetch a single or a limited batch of rows.
+     * @inheritdoc
      *
      * @param  int $limit  The limit for the set of query results.
      * @param  int $offset The offset.
@@ -326,7 +326,7 @@ abstract class AbstractQueryBuilder
     }
 
     /**
-     * Indicate which table the query is targeting.
+     * @inheritdoc
      *
      * @param  string $table Holds the table name.
      * @return $this
@@ -339,8 +339,7 @@ abstract class AbstractQueryBuilder
     }
 
     /**
-     * Indicate the query type is a "select" and remember
-     * which fields should be returned by the query.
+     * @inheritdoc
      *
      * @param  mixed $columns Holds the column name.
      * @return $this
@@ -358,8 +357,7 @@ abstract class AbstractQueryBuilder
     }
 
     /**
-     * Insert a row of data into the table specified in the query
-     * and return the number of affected rows.
+     * @inheritdoc
      *
      * @param  array $columns Holds an array of columns.
      * @param  array $values  Holds an array of values.
@@ -377,7 +375,7 @@ abstract class AbstractQueryBuilder
     }
 
     /**
-     * Store where clause data for later queries.
+     * @inheritdoc
      *
      * @param  string $column     Holds the column name.
      * @param  mixed  $comparator Holds the column comparator.
@@ -396,8 +394,7 @@ abstract class AbstractQueryBuilder
     }
 
     /**
-     * Insert a row of data into the table specified in the query
-     * and return the number of affected rows.
+     * @inheritdoc
      *
      * @param  array $columns Holds an array of columns.
      * @param  array $values  Holds an array of values.
@@ -415,7 +412,7 @@ abstract class AbstractQueryBuilder
     }
 
     /**
-     * Get the ID of the last row that was inserted.
+     * @inheritdoc
      *
      * @return string Return the last insert id.
      */
@@ -425,11 +422,11 @@ abstract class AbstractQueryBuilder
     }
 
     /**
-     * Delete a row from the database.
+     * @inheritdoc
      *
-     * @return int
+     * @return int|bool
      */
-    public function delete() : int
+    public function delete() : int|bool
     {
         $this->type = 'delete';
 
