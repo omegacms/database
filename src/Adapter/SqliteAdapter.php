@@ -126,7 +126,7 @@ class SqliteAdapter extends AbstractDatabaseAdapter
      *
      * @return int Returns 1 if all tables are successfully dropped, or false if any issues occur during the process.
      */
-    public function dropTables() : int
+    public function dropTables() : int|bool
     {
         file_put_contents( $this->config[ 'path' ], '' );
 

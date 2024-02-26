@@ -109,5 +109,5 @@ abstract class AbstractDatabaseAdapter implements DatabaseAdapterInterface
      *
      * @return int Returns 1 if all tables are successfully dropped, or false if any issues occur during the process.
      */
-    abstract public function dropTables() : int;
+    abstract public function dropTables() : int|bool;
 }
