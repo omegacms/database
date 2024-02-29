@@ -16,7 +16,7 @@
   "require": {
     "php": ">=8.2",
     "ext-pdo": "*",
-    "omegacms/service-provider": "^1.0.0",
+    "omegacms/container": "^1.0.0",
     "symfony/console": "^5.1"
   },
   "require-dev": {
