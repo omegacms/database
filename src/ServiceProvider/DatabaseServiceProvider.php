@@ -24,8 +24,8 @@ namespace Omega\Database\ServiceProvider;
 use Omega\Database\Adapter\MysqlAdapter;
 use Omega\Database\Adapter\SqliteAdapter;
 use Omega\Database\DatabaseFactory;
-use Omega\ServiceProvider\AbstractServiceProvider;
-use Omega\ServiceProvider\ServiceProviderInterface;
+use Omega\Container\ServiceProvider\AbstractServiceProvider;
+use Omega\Container\ServiceProvider\ServiceProviderInterface;
 
 /**
  * Database service provider class.

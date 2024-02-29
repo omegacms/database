@@ -24,7 +24,7 @@ namespace Omega\Database;
 use Closure;
 use Omega\Database\Adapter\AbstractDatabaseAdapter;
 use Omega\Database\Exceptions\AdapterException;
-use Omega\ServiceProvider\ServiceProviderInterface;
+use Omega\Container\ServiceProvider\ServiceProviderInterface;
 
 /**
  * DatabaseFactory class.
