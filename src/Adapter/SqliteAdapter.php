@@ -22,7 +22,9 @@ namespace Omega\Database\Adapter;
  * @use
  */
 use function array_map;
+use function extension_loaded;
 use function file_put_contents;
+use Omega\Database\Exceptions\AdapterException;
 use Omega\Database\Exceptions\ConnectionException;
 use Omega\Database\Migration\SqliteMigration;
 use Omega\Database\QueryBuilder\SqliteQueryBuilder;
@@ -59,9 +61,16 @@ class SqliteAdapter extends AbstractDatabaseAdapter
      *
      * @param  array $config Holds an array of configuration params.
      * @return void
+     * @throws AdpterException if sqlite3 extension is not installed or not enabled.
      */
     public function __construct( array $config )
     {
+        if ( ! extension_loaded( 'sqlite3' ) ) {
+            throw new AdapterException(
+                'The Sqlite3 extension is not enabled. Please make sure to install or enable the Sqlite3 extension to use database functionality.'
+            );
+        }
+
         [ 'path' => $path ] = $config;
 
         if ( empty( $path ) ) {
