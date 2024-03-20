@@ -22,6 +22,8 @@ namespace Omega\Database\Adapter;
  * @use
  */
 use function in_array;
+use function extension_loaded;
+use Omega\Database\Excepetions\AdapterException;
 use Omega\Database\Migration\AbstractMigration;
 use Omega\Database\QueryBuilder\AbstractQueryBuilder;
 use Pdo;
@@ -55,9 +57,17 @@ abstract class AbstractDatabaseAdapter implements DatabaseAdapterInterface
      * @inheritdoc
      *
      * @return Pdo Returns the current PDO instance that represents the database connection.
+     * @throws AdpterException if pdo extension is not installed or not enabled.
      */
     public function pdo() : Pdo
     {
+        if ( ! extension_loaded( 'pdo' ) ) {
+            throw new AdapterException(
+                'PDO extension is not enabled. Please make sure to install or enable the PDO extension to use database functionality.'
+            );
+
+        }
+
         return $this->pdo;
     }
 
