@@ -22,6 +22,8 @@ namespace Omega\Database\Adapter;
  * @use
  */
 use function array_map;
+use function extension_loaded;
+use Omega\Database\Exceptions\AdapterException;
 use Omega\Database\Exceptions\ConnectionException;
 use Omega\Database\Migration\MysqlMigration;
 use Omega\Database\QueryBuilder\MysqlQueryBuilder;
@@ -58,9 +60,16 @@ class MysqlAdapter extends AbstractDatabaseAdapter
      *
      * @param  array $config Holds an array of configuration params.
      * @return void
+     * @throws AdpterException if mysql extension is not installed or not enabled.
      */
     public function __construct( array $config )
     {
+        if ( ! extension_loaded( 'mysql' ) ) {
+            throw new AdapterException(
+                'The MySQL extension is not enabled. Please make sure to install or enable the MySQL extension to use database functionality.'
+            );
+        }
+
         [
             'host'     => $host,
             'port'     => $port,
