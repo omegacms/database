@@ -2,7 +2,11 @@
   "name": "omegacms/database",
   "type": "package",
   "description": "Omega CMS Database Package",
-  "keywords": [ "omegacms", "framework", "database"],
+  "keywords": [
+    "omegacms",
+    "framework",
+    "database"
+  ],
   "homepage": "https://omegacms.github.io",
   "license": "GPL-3.0",
   "authors": [
@@ -23,6 +27,11 @@
     "omegacms/testing": "^1.0.0",
     "phpunit/phpunit": "^9.5",
     "symfony/process": "^5.2"
+  },
+  "suggest": {
+    "ext-pdo": "Enables database access via PDO.",
+    "ext-pdo_mysql": "Enables MySQL database access via PDO.",
+    "ext-pdo_sqlite": "Enables SQLite database access via PDO."
   },
   "autoload": {
     "psr-4": {
