@@ -64,7 +64,7 @@ class MysqlAdapter extends AbstractDatabaseAdapter
      */
     public function __construct( array $config )
     {
-        if ( ! extension_loaded( 'mysql' ) ) {
+        if ( ! extension_loaded( 'mysqli' ) ) {
             throw new AdapterException(
                 'The MySQL extension is not enabled. Please make sure to install or enable the MySQL extension to use database functionality.'
             );
