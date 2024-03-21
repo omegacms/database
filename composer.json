@@ -1,0 +1,49 @@
+{
+  "name": "omegacms/database",
+  "type": "package",
+  "description": "Omega CMS Database Package",
+  "keywords": [
+    "omegacms",
+    "framework",
+    "database"
+  ],
+  "homepage": "https://omegacms.github.io",
+  "license": "GPL-3.0",
+  "authors": [
+    {
+      "name": "Adriano Giovannini",
+      "email": "agisoftt@gmail.com",
+      "homepage": "https://omegacms.github.io",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=8.2",
+    "omegacms/container": "^1.0.0",
+    "symfony/console": "^5.1"
+  },
+  "require-dev": {
+    "omegacms/testing": "^1.0.0",
+    "phpunit/phpunit": "^9.5",
+    "symfony/process": "^5.2"
+  },
+  "suggest": {
+    "ext-pdo": "Enables database access via PDO.",
+    "ext-pdo_mysqli": "Enables MySQL database access via PDO.",
+    "ext-pdo_sqlite": "Enables SQLite database access via PDO."
+  },
+  "autoload": {
+    "psr-4": {
+      "Omega\\Database\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Omega\\Database\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit"
+  },
+  "minimum-stability": "stable"
+}
