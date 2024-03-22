@@ -24,7 +24,7 @@ namespace Omega\Database\Migration;
 use function array_filter;
 use function array_map;
 use function join;
-use Omega\Database\Adapter\MysqlAdapter;
+use Omega\Database\Adapter\DatabaseAdapterInterface;
 use Omega\Database\Exceptions\MigrationException;
 use Omega\Database\Migration\Field\AbstractField;
 use Omega\Database\Migration\Field\BoolField;
@@ -53,46 +53,16 @@ use Omega\Database\Migration\Field\TextField;
 class MysqlMigration extends AbstractMigration
 {
     /**
-     * Mysql object.
-     *
-     * @var MysqlAdapter $connection Holds an instance of Mysql.
-     */
-    protected MysqlAdapter $connection;
-
-    /**
-     * Table name.
-     *
-     * @var string $table Holds the table name.
-     */
-    protected string $table;
-
-    /**
-     * Query type.
-     *
-     * @var string $type Holds the query type-
-     */
-    protected string $type;
-
-    /**
-     * Drops columns.
-     *
-     * @var array $drops Holds an array of drops columns.
-     */
-    protected array $drops = [];
-
-    /**
      * MysqlMigration class constructor.
      *
-     * @param  MysqlAdapter $connection Holds an instance of Mysql.
-     * @param  string       $table      Holds the table name.
-     * @param  string       $type       Holds the query type.
+     * @param  DatabaseAdapterInterface $connection Holds an instance of Mysql.
+     * @param  string                   $table      Holds the table name.
+     * @param  string                   $type       Holds the query type.
      * @return void
      */
-    public function __construct( MysqlAdapter $connection, string $table, string $type )
+    public function __construct( DatabaseAdapterInterface $connection, string $table, string $type )
     {
-        $this->connection = $connection;
-        $this->table      = $table;
-        $this->type       = $type;
+        parent::__construct( $connection, $table, $type );
     }
 
     /**
@@ -134,12 +104,12 @@ class MysqlMigration extends AbstractMigration
     }
 
     /**
-     * String for field.
+     * @inheritdoc
      *
      * @param  AbstractField $field Holds an instance of AbstractField.
      * @return string Return the string for the field.
      */
-    private function stringForField( AbstractField $field ) : string
+    public function stringForField( AbstractField $field ) : string
     {
         $prefix = '';
 

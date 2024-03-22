@@ -23,7 +23,7 @@ namespace Omega\Database\Migration;
  */
 use function array_map;
 use function join;
-use Omega\Database\Adapter\SqliteAdapter;
+use Omega\Database\Adapter\DatabaseAdapterInterface;
 use Omega\Database\Exceptions\MigrationException;
 use Omega\Database\Migration\Field\AbstractField;
 use Omega\Database\Migration\Field\BoolField;
@@ -52,40 +52,16 @@ use Omega\Database\Migration\Field\TextField;
 class SqliteMigration extends AbstractMigration
 {
     /**
-     * Sqlite object.
-     *
-     * @var SqliteAdapter $connection Holds an instance of Mysql.
-     */
-    protected SqliteAdapter $connection;
-
-    /**
-     * Table name.
-     *
-     * @var string $table Holds the table name.
-     */
-    protected string $table;
-
-    /**
-     * Query type.
-     *
-     * @var string $type Holds the query type-
-     */
-    protected string $type;
-
-
-    /**
      * MysqlMigration class constructor.
      *
-     * @param  SqliteAdapter $connection Holds an instance of Sqlite.
-     * @param  string $table      Holds the table name.
-     * @param  string $type       Holds the query type.
+     * @param  DatabaseAdapterInterface $connection Holds an instance of Mysql.
+     * @param  string                   $table      Holds the table name.
+     * @param  string                   $type       Holds the query type.
      * @return void
      */
-    public function __construct( SqliteAdapter $connection, string $table, string $type )
+    public function __construct( DatabaseAdapterInterface $connection, string $table, string $type )
     {
-        $this->connection = $connection;
-        $this->table      = $table;
-        $this->type       = $type;
+        parent::__construct( $connection, $table, $type );
     }
 
     /**
@@ -123,12 +99,12 @@ class SqliteMigration extends AbstractMigration
     }
 
     /**
-     * String for field.
+     * @inheritdoc
      *
      * @param  AbstractField $field Holds an instance of AbstractField.
      * @return string Return the string for the field.
      */
-    private function stringForField( AbstractField $field ) : string
+    public function stringForField( AbstractField $field ) : string
     {
         $prefix = '';
 

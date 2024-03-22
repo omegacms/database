@@ -21,6 +21,8 @@ namespace Omega\Database\Migration;
 /**
  * @use
  */
+use Omega\Database\Adapter\DatabaseAdapterInterface;
+use Omega\Database\Migration\Field\AbstractField;
 use Omega\Database\Migration\Field\BoolField;
 use Omega\Database\Migration\Field\DateTimeField;
 use Omega\Database\Migration\Field\FloatField;
@@ -47,14 +49,57 @@ use Omega\Database\Migration\Field\TextField;
 abstract class AbstractMigration implements MigrationInterface
 {
     /**
+     * Conection object.
+     * 
+     * @var DatabaseAdapterInterface $connection Holds the current connection object.
+     */
+    public DatabaseAdapterInterface $connection;
+
+    /**
      * Fields array.
      *
      * @var array $fields Holds an array of fields.
      */
-    protected array $fields = [];
+    public array $fields = [];
 
     /**
-     * @inheritdoc
+     * Table name.
+     *
+     * @var string $table Holds the table name.
+     */
+    public string $table;
+
+    /**
+     * Query type.
+     *
+     * @var string $type Holds the query type-
+     */
+    public string $type;
+
+        /**
+     * Drops columns.
+     *
+     * @var array $drops Holds an array of drops columns.
+     */
+    public array $drops = [];
+
+    /**
+     * MysqlMigration class constructor.
+     *
+     * @param  DatabaseAdapterInterface $connection Holds an instance of Mysql.
+     * @param  string                   $table      Holds the table name.
+     * @param  string                   $type       Holds the query type.
+     * @return void
+     */
+    public function __construct( DatabaseAdapterInterface $connection, string $table, string $type )
+    {
+        $this->connection = $connection;
+        $this->table      = $table;
+        $this->type       = $type;
+    }
+
+    /**
+     * Set boolean field.
      *
      * @param  string $name Holds the field name.
      * @return BoolField Return an instance of BoolField.
@@ -65,7 +110,7 @@ abstract class AbstractMigration implements MigrationInterface
     }
 
     /**
-     * @inheritdoc
+     * Set date time field.
      *
      * @param  string $name Holds the field name.
      * @return DateTimeField Return an instance of DateTimeField.
@@ -76,7 +121,7 @@ abstract class AbstractMigration implements MigrationInterface
     }
 
     /**
-     * @inheritdoc
+     * Set float field.
      *
      * @param  string $name Holds the field name.
      * @return FloatField Return an instance of FloatField.
@@ -87,7 +132,7 @@ abstract class AbstractMigration implements MigrationInterface
     }
 
     /**
-     * @inheritdoc
+     * Set id field.
      *
      * @param  string $name Holds the field name.
      * @return IdField Return an instance of IdField.
@@ -98,7 +143,7 @@ abstract class AbstractMigration implements MigrationInterface
     }
 
     /**
-     * @inheritdoc
+     * Set int field.
      *
      * @param  string $name Holds the field name.
      * @return IntField Return an instance of IntField.
@@ -109,7 +154,7 @@ abstract class AbstractMigration implements MigrationInterface
     }
 
     /**
-     * @inheritdoc
+     * Set string field.
      *
      * @param  string $name Holds the field name.
      * @return StringField Return an instance of StringField.
@@ -120,7 +165,7 @@ abstract class AbstractMigration implements MigrationInterface
     }
 
     /**
-     * @inheritdoc
+     * Set text field.
      *
      * @param  string $name Holds the field name.
      * @return TextField Return an instance of TextField.
@@ -136,6 +181,14 @@ abstract class AbstractMigration implements MigrationInterface
      * @return void
      */
     abstract public function execute() : void;
+
+    /**
+     * @inheritdoc
+     *
+     * @param  AbstractField $field Holds an instance of AbstractField.
+     * @return string Return the string for the field.
+     */
+    abstract public function stringForField( AbstractField $field ) : string;
 
     /**
      * @inheritdoc
