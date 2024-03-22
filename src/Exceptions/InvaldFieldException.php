@@ -26,8 +26,8 @@ use InvalidArgumentException;
 /**
  * Invalid field exception class.
  *
- * The InvalidFieldException class is a custom exception used to indicate errors related to invalid
- * fields  during validation  processes. It extends  the InvalidArgumentException  class, allowing for
+ * The `InvalidFieldException` class is a custom exception used to indicate errors related to invalid
+ * fields  during validation  processes. It extends the InvalidArgumentException  class, allowing for
  * specific handling of field validation  errors.  When thrown, this  exception signals  that a field
  * does not  meet the  required criteria  or is otherwise  invalid according to the validation rules.
  * This exception  can  be caught and  processed within the  application to provide appropriate error
