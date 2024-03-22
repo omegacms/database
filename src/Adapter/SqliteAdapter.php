@@ -137,8 +137,17 @@ class SqliteAdapter extends AbstractDatabaseAdapter
      */
     public function dropTables() : int|bool
     {
-        file_put_contents( $this->config[ 'path' ], '' );
+    	$statement = $this->pdo->prepare( "SELECT name FROM sqlite_master WHERE type='table'" );
+    	$statement->execute();
+    	$tables    = $statement->fetchAll( PDO::FETCH_COLUMN );
+        
+        array_shift( $tables );
 
-        return 1;
+    	foreach ( $tables as $table ) {
+        	$dropStatement = $this->pdo->prepare( "DROP TABLE IF EXISTS `$table`" );
+        	$dropStatement->execute();
+    	}
+
+    	return 1;
     }
 }
