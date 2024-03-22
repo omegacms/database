@@ -22,6 +22,7 @@ namespace Omega\Database\Adapter;
  * @use
  */
 use function array_map;
+use function array_shift;
 use function extension_loaded;
 use function file_put_contents;
 use Omega\Database\Exceptions\AdapterException;
