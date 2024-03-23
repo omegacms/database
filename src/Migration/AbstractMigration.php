@@ -49,13 +49,6 @@ use Omega\Database\Migration\Field\TextField;
 abstract class AbstractMigration implements MigrationInterface
 {
     /**
-     * Conection object.
-     * 
-     * @var DatabaseAdapterInterface $connection Holds the current connection object.
-     */
-    //protected DatabaseAdapterInterface $connection;
-
-    /**
      * Fields array.
      *
      * @var array $fields Holds an array of fields.

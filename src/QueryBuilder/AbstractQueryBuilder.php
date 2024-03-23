@@ -51,13 +51,6 @@ use PdoStatement;
 abstract class AbstractQueryBuilder implements QueryBuilderInterface
 {
     /**
-     * Conection object.
-     * 
-     * @var DatabaseAdapterInterface $connection Holds the current connection object.
-     */
-    //protected DatabaseAdapterInterface $connection;
-
-    /**
      * Query type.
      *
      * @var string $type Holds the query type.

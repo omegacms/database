@@ -43,13 +43,6 @@ use Omega\Database\Adapter\MysqlAdapter;
 class MysqlQueryBuilder extends AbstractQueryBuilder
 {
     /**
-     * MySQL connection object.
-     *
-     * @var MysqlAdapter $connection Holds an instance of the MySQL connection object.
-     */
-    //protected MysqlAdapter $connection;
-
-    /**
      * MysqlQueryBuilder class constructor.
      *
      * @param  DatabaseAdapterInterface $connection Holds an instance of the MySQLAdapter for database connection.

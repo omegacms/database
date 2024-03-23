@@ -43,13 +43,6 @@ use Omega\Database\Adapter\SqliteAdapter;
 class SqliteQueryBuilder extends AbstractQueryBuilder
 {
     /**
-     * Sqlite connection object.
-     *
-     * @var SqliteAdapter $connection Holds the Sqlite connection object.
-     */
-    //protected SqliteAdapter $connection;
-
-    /**
      * SqliteQueryBuilder class constructor.
      *
      * @param  DatabaseAdapterInterface $connection Holds an instance of the SqliteAdapter for database connection.
@@ -57,6 +50,6 @@ class SqliteQueryBuilder extends AbstractQueryBuilder
      */
     public function __construct( protected DatabaseAdapterInterface $connection )
     {
-        $this->connection = $connection;
+        parent::__construct( $connection );
     }
 }
