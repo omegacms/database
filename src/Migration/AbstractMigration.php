@@ -53,7 +53,7 @@ abstract class AbstractMigration implements MigrationInterface
      * 
      * @var DatabaseAdapterInterface $connection Holds the current connection object.
      */
-    public DatabaseAdapterInterface $connection;
+    protected DatabaseAdapterInterface $connection;
 
     /**
      * Fields array.
