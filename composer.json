@@ -29,7 +29,7 @@
   },
   "suggest": {
     "ext-pdo": "Enables database access via PDO.",
-    "ext-pdo_mysqli": "Enables MySQL database access via PDO.",
+    "ext-pdo_mysql": "Enables MySQL database access via PDO.",
     "ext-pdo_sqlite": "Enables SQLite database access via PDO."
   },
   "autoload": {
