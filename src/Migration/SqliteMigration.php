@@ -59,7 +59,7 @@ class SqliteMigration extends AbstractMigration
      * @param  string                   $type       Holds the query type.
      * @return void
      */
-    public function __construct( DatabaseAdapterInterface $connection, string $table, string $type )
+    public function __construct( protected DatabaseAdapterInterface $connection, string $table, string $type )
     {
         parent::__construct( $connection, $table, $type );
     }

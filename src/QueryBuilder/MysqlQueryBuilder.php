@@ -21,6 +21,7 @@ namespace Omega\Database\QueryBuilder;
 /**
  * @use
  */
+use Omega\Database\Adapter\DatabaseAdapterInterface;
 use Omega\Database\Adapter\MysqlAdapter;
 
 /**
@@ -46,16 +47,16 @@ class MysqlQueryBuilder extends AbstractQueryBuilder
      *
      * @var MysqlAdapter $connection Holds an instance of the MySQL connection object.
      */
-    protected MysqlAdapter $connection;
+    //protected MysqlAdapter $connection;
 
     /**
      * MysqlQueryBuilder class constructor.
      *
-     * @param  MysqlAdapter $connection Holds an instance of the MySQLAdapter for database connection.
+     * @param  DatabaseAdapterInterface $connection Holds an instance of the MySQLAdapter for database connection.
      * @return void
      */
-    public function __construct( MysqlAdapter $connection )
+    public function __construct( protected DatabaseAdapterInterface $connection )
     {
-        $this->connection = $connection;
+        parent::__construct( $connection );
     }
 }

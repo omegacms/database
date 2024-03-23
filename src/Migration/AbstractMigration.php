@@ -53,7 +53,7 @@ abstract class AbstractMigration implements MigrationInterface
      * 
      * @var DatabaseAdapterInterface $connection Holds the current connection object.
      */
-    protected DatabaseAdapterInterface $connection;
+    //protected DatabaseAdapterInterface $connection;
 
     /**
      * Fields array.
@@ -91,7 +91,7 @@ abstract class AbstractMigration implements MigrationInterface
      * @param  string                   $type       Holds the query type.
      * @return void
      */
-    public function __construct( DatabaseAdapterInterface $connection, string $table, string $type )
+    public function __construct( protected DatabaseAdapterInterface $connection, string $table, string $type )
     {
         $this->connection = $connection;
         $this->table      = $table;

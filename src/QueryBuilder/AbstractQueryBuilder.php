@@ -27,6 +27,7 @@ use function count;
 use function join;
 use function is_null;
 use function is_string;
+use Omega\Database\Adapter\DatabaseAdapterInterface;
 use Omega\Database\Exceptions\QueryException;
 use Pdo;
 use PdoStatement;
@@ -49,6 +50,13 @@ use PdoStatement;
  */
 abstract class AbstractQueryBuilder implements QueryBuilderInterface
 {
+    /**
+     * Conection object.
+     * 
+     * @var DatabaseAdapterInterface $connection Holds the current connection object.
+     */
+    //protected DatabaseAdapterInterface $connection;
+
     /**
      * Query type.
      *
@@ -97,6 +105,17 @@ abstract class AbstractQueryBuilder implements QueryBuilderInterface
      * @var array $wheres Holds an array of wheres clause.
      */
     protected array $wheres = [];
+
+    /**
+     * AbstractQueryBuilder class contructor.
+     *
+     * @param  DatabaseAdapterInterface $connection Holds an instance of Mysql.
+     * @return void
+     */
+    public function __construct( protected DatabaseAdapterInterface $connection )
+    {
+        $this->connection = $connection;
+    }
 
     /**
      * @inheritdoc
