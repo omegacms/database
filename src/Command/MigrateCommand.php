@@ -25,6 +25,8 @@ namespace Omega\Database\Command;
 use function getcwd;
 use function glob;
 use function Omega\Helpers\app;
+use function Omega\Helpers\get_database_path;
+use function Omega\Helpers\env;
 use Omega\Database\Adapter\AbstractDatabaseAdapter;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -83,10 +85,9 @@ class MigrateCommand extends Command
      */
     protected function execute( InputInterface $input, OutputInterface $output ) : int
     {
-        $current = getcwd();
-        $pattern = 'database/migrations/*.php';
-
-        $paths = glob( "{$current}/{$pattern}" );
+        $current = get_database_path( 'migrations' );
+		$pattern = env( 'DB_CONNECTION' ) . '/*.php';
+		$paths   = glob( "{$current}/{$pattern}" );
 
         if ( count( $paths ) < 1 ) {
             $output->writeln( 'No migrations found' );
