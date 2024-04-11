@@ -60,7 +60,7 @@ class MysqlAdapter extends AbstractDatabaseAdapter
      *
      * @param  array $config Holds an array of configuration params.
      * @return void
-     * @throws AdpterException if mysql extension is not installed or not enabled.
+     * @throws AdapterException if mysql extension is not installed or not enabled.
      */
     public function __construct( array $config )
     {

@@ -23,7 +23,7 @@ namespace Omega\Database\Adapter;
  */
 use function in_array;
 use function extension_loaded;
-use Omega\Database\Excepetions\AdapterException;
+use Omega\Database\Exceptions\AdapterException;
 use Omega\Database\Migration\AbstractMigration;
 use Omega\Database\QueryBuilder\AbstractQueryBuilder;
 use Pdo;
@@ -57,7 +57,7 @@ abstract class AbstractDatabaseAdapter implements DatabaseAdapterInterface
      * @inheritdoc
      *
      * @return Pdo Returns the current PDO instance that represents the database connection.
-     * @throws AdpterException if pdo extension is not installed or not enabled.
+     * @throws AdapterException if pdo extension is not installed or not enabled.
      */
     public function pdo() : Pdo
     {
@@ -117,7 +117,7 @@ abstract class AbstractDatabaseAdapter implements DatabaseAdapterInterface
     /**
      * @inheritdoc
      *
-     * @return int Returns 1 if all tables are successfully dropped, or false if any issues occur during the process.
+     * @return int|bool Returns 1 if all tables are successfully dropped, or false if any issues occur during the process.
      */
     abstract public function dropTables() : int|bool;
 }

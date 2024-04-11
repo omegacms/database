@@ -102,7 +102,7 @@ interface DatabaseAdapterInterface
      *
      * This method is used to delete all tables in the current database. Exercise caution as data loss is irreversible.
      *
-     * @return int Returns 1 if all tables are successfully dropped, or false if any issues occur during the process.
+     * @return int|bool Returns 1 if all tables are successfully dropped, or false if any issues occur during the process.
      */
     public function dropTables() : int|bool;
 }
