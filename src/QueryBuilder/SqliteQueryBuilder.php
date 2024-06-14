@@ -22,7 +22,6 @@ namespace Omega\Database\QueryBuilder;
  * @use
  */
 use Omega\Database\Adapter\DatabaseAdapterInterface;
-use Omega\Database\Adapter\SqliteAdapter;
 
 /**
  * Mysql query builder class.
@@ -48,8 +47,9 @@ class SqliteQueryBuilder extends AbstractQueryBuilder
      * @param  DatabaseAdapterInterface $connection Holds an instance of the SqliteAdapter for database connection.
      * @return void
      */
-    public function __construct( protected DatabaseAdapterInterface $connection )
-    {
+    public function __construct(
+		protected DatabaseAdapterInterface $connection
+	) {
         parent::__construct( $connection );
     }
 }

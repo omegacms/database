@@ -48,8 +48,9 @@ class MysqlQueryBuilder extends AbstractQueryBuilder
      * @param  DatabaseAdapterInterface $connection Holds an instance of the MySQLAdapter for database connection.
      * @return void
      */
-    public function __construct( protected DatabaseAdapterInterface $connection )
-    {
+    public function __construct(
+		protected DatabaseAdapterInterface $connection
+	) {
         parent::__construct( $connection );
     }
 }

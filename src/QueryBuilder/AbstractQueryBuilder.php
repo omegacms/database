@@ -105,10 +105,9 @@ abstract class AbstractQueryBuilder implements QueryBuilderInterface
      * @param  DatabaseAdapterInterface $connection Holds an instance of Mysql.
      * @return void
      */
-    public function __construct( protected DatabaseAdapterInterface $connection )
-    {
-        $this->connection = $connection;
-    }
+    public function __construct(
+		protected DatabaseAdapterInterface $connection
+	) {}
 
     /**
      * @inheritdoc
