@@ -21,7 +21,6 @@ namespace Omega\Database;
 /**
  * @use
  */
-use function Omega\Helpers\app;
 use Omega\Database\Adapter\DatabaseAdapterInterface;
 use Omega\Database\Exceptions\UndefinedTableNameException;
 use Exception;

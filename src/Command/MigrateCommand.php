@@ -21,12 +21,8 @@ namespace Omega\Database\Command;
 /**
  * @use
  */
-//use function Omega\Helpers\app;
 use function getcwd;
 use function glob;
-use function Omega\Helpers\app;
-use function Omega\Helpers\get_database_path;
-use function Omega\Helpers\env;
 use Omega\Database\Adapter\AbstractDatabaseAdapter;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
