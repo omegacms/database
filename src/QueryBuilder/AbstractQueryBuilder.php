@@ -277,7 +277,7 @@ abstract class AbstractQueryBuilder implements QueryBuilderInterface
                 $joinedColumns .= ', ';
             }
 
-            $joinedColumns = " {$column} = :{$column}";
+            $joinedColumns .= " {$column} = :{$column}";
         }
 
         $query .= " UPDATE {$this->table} SET {$joinedColumns}";
