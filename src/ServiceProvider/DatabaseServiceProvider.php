@@ -58,7 +58,7 @@ class DatabaseServiceProvider extends AbstractServiceProvider
     /**
      * @inheritdoc
      *
-     * @return mixed
+     * @return ServiceProviderInterface Return an instance of ServiceProviderIntrface.
      */
     protected function factory() : ServiceProviderInterface
     {

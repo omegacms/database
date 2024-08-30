@@ -42,6 +42,13 @@ use ReflectionClass;
 abstract class AbstractModel
 {
     /**
+     * Current database instance.
+     * 
+     * @var DatabaseAdapterInterface $connection Holds the current database instance.
+     */
+    protected DatabaseAdapterInterface $connection;
+    
+    /**
      * Table name in the database.
      *
      * @var string $table Holds the table name in the database.
