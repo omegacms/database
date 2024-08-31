@@ -21,6 +21,7 @@ namespace Omega\Database\ServiceProvider;
 /**
  * @use
  */
+use Closure;
 use Omega\Database\Adapter\MysqlAdapter;
 use Omega\Database\Adapter\SqliteAdapter;
 use Omega\Database\DatabaseFactory;
@@ -68,7 +69,7 @@ class DatabaseServiceProvider extends AbstractServiceProvider
     /**
      * @inheritdoc
      *
-     * @return array Return an array of drivers for the service.
+     * @return array<string, Closure> Return an array of drivers for the service.
      */
     protected function drivers() : array
     {
