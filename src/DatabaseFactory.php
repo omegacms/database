@@ -67,7 +67,7 @@ class DatabaseFactory implements ServiceProviderInterface
     /**
      * Connect the driver.
      *
-     * @param  array $config Holds an array of configuration.
+     * @param  array<string, mixed> $config Holds an array of configuration.
      * @return AbstractDatabaseAdapter Return an instance of AbstractDatabaseAdapter.
      * @throws AdapterException if the adapter is not defined or unrecognised.
      */
