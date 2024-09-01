@@ -54,6 +54,16 @@ class MigrateCommand extends Command
     protected static $defaultName = 'migrate';
 
     /**
+     * Command constructor.
+     * 
+     * @return void 
+     */
+    public function __construct()
+    {
+        parent::__construct( 'migrate' );
+    }
+
+    /**
      * Configures the current command.
      *
      * This method configures the command description, options, and help information.
