@@ -46,14 +46,14 @@ interface QueryBuilderInterface
     /**
      * Fetch all rows matching the current query.
      *
-     * @return array Returns an array containing all rows in the database.
+     * @return array<array<string, mixed>> Returns an array containing all rows in the database.
      */
     public function all() : array;
 
     /**
      * Get the values for the where clause placeholders.
      *
-     * @return array Return an array of result based on where clause.
+     * @return array<string, mixed> Return an array of result based on where clause.
      */
     public function getWhereValues() : array;
 
@@ -116,7 +116,7 @@ interface QueryBuilderInterface
     /**
      * Fetch the first row matching the current query.
      *
-     * @return ?array Returns an array with the first row or null if no rows are found.
+     * @return ?array<string, mixed> Returns an array with the first row or null if no rows are found.
      */
     public function first() : ?array;
 
@@ -150,8 +150,8 @@ interface QueryBuilderInterface
      * Insert a row of data into the table specified in the query
      * and return the number of affected rows.
      *
-     * @param  array $columns Holds an array of columns.
-     * @param  array $values  Holds an array of values.
+     * @param  array<string> $columns Holds an array of columns.
+     * @param  array<mixed>  $values  Holds an array of values.
      * @return int|bool Return the number of affected rows.
      */
     public function insert( array $columns, array $values ) : int|bool;
@@ -170,8 +170,8 @@ interface QueryBuilderInterface
      * Insert a row of data into the table specified in the query
      * and return the number of affected rows.
      *
-     * @param  array $columns Holds an array of columns.
-     * @param  array $values  Holds an array of values.
+     * @param  array<string> $columns Holds an array of columns.
+     * @param  array<mixed>  $values  Holds an array of values.
      * @return int|bool Return the number of affected rows.
      */
     public function update( array $columns, array $values ) : int|bool;
@@ -179,9 +179,9 @@ interface QueryBuilderInterface
     /**
      * Get the ID of the last row that was inserted.
      *
-     * @return string Return the last insert id.
+     * @return string|false Return the last insert id.
      */
-    public function getLastInsertId() : string;
+    public function getLastInsertId() : string|false;
 
     /**
      * Delete a row from the database.

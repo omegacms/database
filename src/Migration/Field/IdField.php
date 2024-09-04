@@ -40,12 +40,12 @@ use Omega\Database\Exceptions\MigrationException;
 class IdField extends AbstractField
 {
     /**
-     * Set the default value for float field.
+     * Set the default value for int field.
      *
-     * @param  bool $value Holds the default value for the id field.
+     * @param  int $value Holds the default value for the id field.
      * @return $this Returns the current instance for method chaining.
      */
-    public function default() : mixed
+    public function default( int $value ) : mixed
     {
         throw new MigrationException(
             'ID fields cannot have a default value'

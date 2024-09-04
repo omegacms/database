@@ -44,7 +44,7 @@ class StringField extends AbstractField
     /**
      * Set the default value for string field.
      *
-     * @param  bool $value Holds the default value for the string field.
+     * @param  string $value Holds the default value for the string field.
      * @return $this Returns the current instance for method chaining.
      */
     public function default( string $value ) : static

@@ -24,7 +24,6 @@ namespace Omega\Database\Adapter;
 use function array_map;
 use function array_shift;
 use function extension_loaded;
-use function file_put_contents;
 use Omega\Database\Exceptions\AdapterException;
 use Omega\Database\Exceptions\ConnectionException;
 use Omega\Database\Migration\SqliteMigration;
@@ -51,16 +50,9 @@ use Pdo;
 class SqliteAdapter extends AbstractDatabaseAdapter
 {
     /**
-     * Config array.
-     *
-     * @var array $config Holds an array of configuration params.
-     */
-    private array $config;
-
-    /**
      * Sqlite class constructor.
      *
-     * @param  array $config Holds an array of configuration params.
+     * @param  array{path: string} $config Holds an array of configuration params.
      * @return void
      * @throws AdapterException if sqlite3 extension is not installed or not enabled.
      */
@@ -81,13 +73,12 @@ class SqliteAdapter extends AbstractDatabaseAdapter
         }
 
         $this->pdo = new Pdo( "sqlite:{$path}" );
-        $this->config = $config;
     }
 
     /**
      * @inheritdoc
      *
-     * @return AbstractQueryBuilder An instance of the AbstractQueryBuilder class for constructing SQL queries.
+     * @return SqliteQueryBuilder An instance of the AbstractQueryBuilder class for constructing SQL queries.
      */
     public function query() : SqliteQueryBuilder
     {
@@ -98,7 +89,7 @@ class SqliteAdapter extends AbstractDatabaseAdapter
      * @inheritdoc
      *
      * @param  string $table The name of the table to create.
-     * @return  AbstractMigration Returns an instance of the AbstractMigration class for managing table creation.
+     * @return  SqliteMigration Returns an instance of the AbstractMigration class for managing table creation.
      */
     public function createTable( string $table ) : SqliteMigration
     {
@@ -109,7 +100,7 @@ class SqliteAdapter extends AbstractDatabaseAdapter
      * @inheritdoc
      *
      * @param  string $table Holds the table name to alter.
-     * @return MysqlMigration Return an instance of MysqlMigration.
+     * @return SqliteMigration Return an instance of MysqlMigration.
      */
     public function alterTable( string $table ) : SqliteMigration
     {
@@ -119,7 +110,7 @@ class SqliteAdapter extends AbstractDatabaseAdapter
     /**
      * @inheritdoc
      *
-     * @return array Returns an array of table names available on this connection.
+     * @return string[] Returns an array of table names available on this connection.
      */
     public function getTables() : array
     {

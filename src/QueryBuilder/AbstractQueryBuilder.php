@@ -25,6 +25,7 @@ use function array_map;
 use function array_push;
 use function count;
 use function join;
+use function is_array;
 use function is_null;
 use function is_string;
 use Omega\Database\Adapter\DatabaseAdapterInterface;
@@ -60,7 +61,7 @@ abstract class AbstractQueryBuilder implements QueryBuilderInterface
     /**
      * Columns.
      *
-     * @var array $columns Holds an array of columns.
+     * @var array<string> $columns Holds an array of columns.
      */
     protected array $columns;
 
@@ -88,14 +89,14 @@ abstract class AbstractQueryBuilder implements QueryBuilderInterface
     /**
      * Values array.
      *
-     * @var array $values Holds an array of values for the query.
+     * @var array<mixed> $values Holds an array of values for the query.
      */
     protected array $values;
 
     /**
      * @inheritdoc
      *
-     * @var array $wheres Holds an array of wheres clause.
+     * @var array<array{string, string, mixed}> $wheres Holds an array of wheres clause.
      */
     protected array $wheres = [];
 
@@ -112,7 +113,7 @@ abstract class AbstractQueryBuilder implements QueryBuilderInterface
     /**
      * @inheritdoc
      *
-     * @return array Returns an array containing all rows in the database.
+     * @return array<array<string, mixed>> Returns an array containing all rows in the database.
      */
     public function all() : array
     {
@@ -129,7 +130,7 @@ abstract class AbstractQueryBuilder implements QueryBuilderInterface
     /**
      * @inheritdoc
      *
-     * @return array Return an array of result based on where clause.
+     * @return array<string, mixed> Return an array of result based on where clause.
      */
     public function getWhereValues() : array
     {
@@ -301,7 +302,7 @@ abstract class AbstractQueryBuilder implements QueryBuilderInterface
     /**
      * @inheritdoc
      *
-     * @return ?array Returns an array with the first row or null if no rows are found.
+     * @return ?array<string, mixed> Returns an array with the first row or null if no rows are found.
      */
     public function first() : ?array
     {
@@ -354,14 +355,28 @@ abstract class AbstractQueryBuilder implements QueryBuilderInterface
      *
      * @param  mixed $columns Holds the column name.
      * @return $this
+     * @throws QueryException if the columns is not a string or an arrya of string.
      */
     public function select( mixed $columns = '*' ) : static
     {
         if ( is_string( $columns ) ) {
             $columns = [ $columns ];
+        } elseif ( ! is_array( $columns ) ) {
+            throw new QueryException(
+                'Expected string or array of strings for columns.'
+            );
         }
 
-        $this->type = 'select';
+        // Ensure that $columns contains only strings
+        foreach ( $columns as $column ) {
+            if ( ! is_string( $column ) ) {
+                throw new QueryException(
+                    'All columns must be strings.'
+                );
+            }
+        }
+
+        $this->type    = 'select';
         $this->columns = $columns;
 
         return $this;
@@ -370,8 +385,8 @@ abstract class AbstractQueryBuilder implements QueryBuilderInterface
     /**
      * @inheritdoc
      *
-     * @param  array $columns Holds an array of columns.
-     * @param  array $values  Holds an array of values.
+     * @param  array<string> $columns Holds an array of columns.
+     * @param  array<mixed>  $values  Holds an array of values.
      * @return int|bool Return the number of affected rows.
      */
     public function insert( array $columns, array $values ) : int|bool
@@ -407,8 +422,8 @@ abstract class AbstractQueryBuilder implements QueryBuilderInterface
     /**
      * @inheritdoc
      *
-     * @param  array $columns Holds an array of columns.
-     * @param  array $values  Holds an array of values.
+     * @param  array<string> $columns Holds an array of columns.
+     * @param  array<mixed>  $values  Holds an array of values.
      * @return int|bool Return the number of affected rows.
      */
     public function update( array $columns, array $values ) : int|bool
@@ -425,9 +440,9 @@ abstract class AbstractQueryBuilder implements QueryBuilderInterface
     /**
      * @inheritdoc
      *
-     * @return string Return the last insert id.
+     * @return string|false Return the last insert id.
      */
-    public function getLastInsertId() : string
+    public function getLastInsertId() : string|false
     {
         return $this->connection->pdo()->lastInsertId();
     }

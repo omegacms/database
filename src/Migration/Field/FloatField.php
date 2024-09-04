@@ -37,14 +37,14 @@ class FloatField extends AbstractField
     /**
      * Default value for the float field.
      *
-     * @var ?string $default Holds the default value or null.
+     * @var ?float $default Holds the default value or null.
      */
     public ?float $default = null;
 
     /**
      * Set the default value for float field.
      *
-     * @param  bool $value Holds the default value for the float field.
+     * @param  float $value Holds the default value for the float field.
      * @return $this Returns the current instance for method chaining.
      */
     public function default( float $value ) : static

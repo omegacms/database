@@ -43,31 +43,16 @@ use Omega\Database\QueryBuilder\AbstractQueryBuilder;
 class ModelCollector
 {
     /**
-     * QueryBuilder insstance.
-     *
-     * @var AbstractQueryBuilder $builder Holds the QueryBuilder instance.
-     */
-    private AbstractQueryBuilder $builder;
-
-    /**
-     * The fully qualified class name of the model to be instantiated.
-     *
-     * @var string $class Holds the fully qualified class name of the model to be instantiated.
-     */
-    private string $class;
-
-    /**
      * ModelCollector class constructor.
      *
-     * @param  AbstractQueryBuilder $builder    Holds the query builder instance.
-     * @param  string               $modelClass Holds the fully qualified class name of the model.
+     * @param  AbstractQueryBuilder $builder Holds the query builder instance.
+     * @param  string               $class   Holds the fully qualified class name of the model.
      * @return void
      */
-    public function __construct( AbstractQueryBuilder $builder, string $class )
-    {
-        $this->builder = $builder;
-        $this->class   = $class;
-    }
+    public function __construct( 
+        private AbstractQueryBuilder $builder, 
+        private string $class 
+    ) {}
 
     /**
      * Magic method to forward undefined method calls to the underlying query builder instance.
@@ -75,14 +60,13 @@ class ModelCollector
      * This method allows dynamic method calls on the ModelCollector, delegating them to the
      * underlying query builder instance. This is particularly useful for building queries fluently.
      *
-     * @param  string $method     Holds the method name.
-     * @param  array  $parameters Holds the method parameters.
+     * @param  string            $method     Holds the method name.
+     * @param  array<int|string, mixed> $parameters Holds the method parameters.
      * @return $this|mixed Return $this if the method is fluent, otherwise, returns the method result.
      */
     public function __call( string $method, array $parameters = [] ) : mixed
     {
         $result = $this->builder->$method( ...$parameters );
-
         // in case it's a fluent method...
         if ( $result instanceof AbstractQueryBuilder ) {
             $this->builder = $result;

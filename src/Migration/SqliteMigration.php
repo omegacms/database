@@ -72,29 +72,29 @@ class SqliteMigration extends AbstractMigration
     public function execute() : void
     {
         $command = $this->type === 'create' ? '' : 'ALTER TABLE';
+    
+        $fields = array_map(fn($field) => $this->stringForField($field), $this->fields);
+    
+        $query = '';
 
-        $fields = array_map( fn( $field ) => $this->stringForField( $field ), $this->fields );
-
-        if ( $this->type === 'create' ) {
-            $fields = join( ',' . PHP_EOL, $fields );
-
-            $query = "
+        if ($this->type === 'create') {
+            $fields = join(',' . PHP_EOL, $fields);
+    
+            $query .= "
                 CREATE TABLE \"{$this->table}\" (
                     {$fields}
                 );
             ";
-        }
-
-        if ( $this->type === 'alter' ) {
-            $fields = join( ';' . PHP_EOL, $fields );
-
-            $query = "
+        } elseif ($this->type === 'alter') {
+            $fields = join(';' . PHP_EOL, $fields);
+    
+            $query .= "
                 ALTER TABLE \"{$this->table}\"
                 {$fields};
             ";
         }
-
-        $statement = $this->connection->pdo()->prepare( $query );
+    
+        $statement = $this->connection->pdo()->prepare($query);
         $statement->execute();
     }
 

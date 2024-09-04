@@ -21,8 +21,8 @@ namespace Omega\Database\Command;
 /**
  * @use
  */
-use function getcwd;
 use function glob;
+use RuntimeException;
 use Omega\Database\Adapter\AbstractDatabaseAdapter;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -88,6 +88,7 @@ class MigrateCommand extends Command
      * @param  InputInterface  $input  Holds an instance of InputInterface.
      * @param  OutputInterface $output Holds an instance of OutputInterface.
      * @return int Return 0 if everything went fine, or an exit code.
+     * @throws RuntimeException if database connection is invalid.
      */
     protected function execute( InputInterface $input, OutputInterface $output ) : int
     {
@@ -95,18 +96,20 @@ class MigrateCommand extends Command
 		$pattern = env( 'DB_CONNECTION' ) . '/*.php';
 		$paths   = glob( "{$current}/{$pattern}" );
 
-        if ( count( $paths ) < 1 ) {
+        if ( $paths === false || count( $paths ) < 1 ) {
             $output->writeln( 'No migrations found' );
             return Command::SUCCESS;
         }
 
 	    $connection = app( 'database' );
 
+        assert( $connection instanceof AbstractDatabaseAdapter );
+
         if ( $input->getOption( 'fresh' ) ) {
             $output->writeln( 'Dropping existing database tables' );
-
             $connection->dropTables();
 	        $connection = app( 'database' );
+            assert( $connection instanceof AbstractDatabaseAdapter );
         }
 
         if ( ! $connection->hasTable( 'migrations' ) ) {
@@ -123,7 +126,13 @@ class MigrateCommand extends Command
             $output->writeln( "Migrating: {$class}" );
 
             $obj = new $class();
-            $obj->migrate( $connection );
+
+            if ( method_exists( $obj, 'migrate' ) ) {
+                $obj->migrate( $connection );
+            } else {
+                $output->writeln( "Class {$class} does not have a migration method." );
+                return Command::FAILURE;
+            }
 
             $connection
                 ->query()

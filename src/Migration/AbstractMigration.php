@@ -51,7 +51,7 @@ abstract class AbstractMigration implements MigrationInterface
     /**
      * Fields array.
      *
-     * @var array $fields Holds an array of fields.
+     * @var array<AbstractField> $fields Holds an array of fields.
      */
     public array $fields = [];
 
@@ -72,7 +72,7 @@ abstract class AbstractMigration implements MigrationInterface
         /**
      * Drops columns.
      *
-     * @var array $drops Holds an array of drops columns.
+     * @var array<string> $drops Holds an array of drops columns.
      */
     public array $drops = [];
 

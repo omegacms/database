@@ -37,14 +37,14 @@ class IntField extends AbstractField
     /**
      * Default value for the int field.
      *
-     * @var ?string $default Holds the default value or null.
+     * @var ?int $default Holds the default value or null.
      */
     public ?int $default = null;
 
     /**
      * Set the default value for int field.
      *
-     * @param  bool $value Holds the default value for the int field.
+     * @param  int $value Holds the default value for the int field.
      * @return $this Returns the current instance for method chaining.
      */
     public function default( int $value ) : static

@@ -46,7 +46,7 @@ class DatabaseFactory implements ServiceProviderInterface
     /**
      * Database connectors.
      *
-     * @var array $connectors Holds an array of database connectors.
+     * @var array<string, Closure> $connectors Holds an array of database connectors.
      */
     protected array $connectors;
 

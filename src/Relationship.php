@@ -66,23 +66,25 @@ class Relationship
     /**
      * Call an object as a function.
      *
-     * @param  array $parameters Holds an array of parameters.
+     * @param  array<int|string, mixed> $parameters Holds an array of parameters.
      * @return mixed
      */
     public function __invoke( array $parameters = [] ) : mixed
     {
-        return $this->collector->method( ...$parameters );
+        //return $this->collector->method( ...$parameters );
+        return $this->collector->__call( $this->method, $parameters );
     }
 
     /**
      * Invoking inaccessible methods in an object context.
      *
-     * @param  string $method     Holds the method name.
-     * @param  array  $parameters Holds an array of parameters.
+     * @param  string                   $method     Holds the method name.
+     * @param  array<int|string, mixed> $parameters Holds an array of parameters.
      * @return mixed
      */
     public function __call( string $method, array $parameters = [] ) : mixed
     {
-        return $this->collector->$method( ...$parameters );
+        //return $this->collector->$method( ...$parameters );
+        return $this->collector->__call($method, $parameters);
     }
 }

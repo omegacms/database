@@ -83,7 +83,7 @@ interface DatabaseAdapterInterface
      *
      * Retrieve an array containing the names of all tables available on this database connection.
      *
-     * @return array Returns an array of table names available on this connection.
+     * @return string[] Returns an array of table names available on this connection.
      */
     public function getTables() : array;
 

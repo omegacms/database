@@ -77,10 +77,12 @@ class MysqlMigration extends AbstractMigration
         $primary = array_filter( $this->fields, fn( $field ) => $field instanceof IdField );
         $primaryKey = isset( $primary[ 0 ] ) ? "PRIMARY KEY (`{$primary[0]->name}`)" : '';
 
+        $query = '';
+
         if ( $this->type === 'create' ) {
             $fields = join( PHP_EOL, array_map( fn( $field ) => "{$field},", $fields ) );
 
-            $query = "
+            $query .= "
                 CREATE TABLE `{$this->table}` (
                     {$fields}
                     {$primaryKey}
@@ -89,10 +91,15 @@ class MysqlMigration extends AbstractMigration
         }
 
         if ( $this->type === 'alter' ) {
-            $fields = join( PHP_EOL, array_map( fn( $field ) => "{$field};", $fields ) );
-            $drops = join( PHP_EOL, array_map( fn( $drop ) => "DROP COLUMN `{$drop}`;", $this->drops ) );
+            $fields = is_array($fields) ? $fields : [$fields];
 
-            $query = "
+    $fields = join(PHP_EOL, array_map(fn($field) => "{$field};", $fields));
+    $drops = join(PHP_EOL, array_map(fn($drop) => "DROP COLUMN `{$drop}`;", $this->drops));
+
+            //$fields = join( PHP_EOL, array_map( fn( $field ) => "{$field};", $fields ) );
+            //$drops = join( PHP_EOL, array_map( fn( $drop ) => "DROP COLUMN `{$drop}`;", $this->drops ) );
+
+            $query .= "
                 ALTER TABLE `{$this->table}`
                 {$fields}
                 {$drops}

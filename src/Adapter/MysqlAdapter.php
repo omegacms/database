@@ -58,7 +58,7 @@ class MysqlAdapter extends AbstractDatabaseAdapter
     /**
      * MySQL class constructor.
      *
-     * @param  array $config Holds an array of configuration params.
+     * @param  array{host: string, port: int, database: string, username: string, password: string} $config Holds an array of configuration params.
      * @return void
      * @throws AdapterException if mysql extension is not installed or not enabled.
      */
@@ -92,7 +92,7 @@ class MysqlAdapter extends AbstractDatabaseAdapter
     /**
      * @inheritdoc
      *
-     * @return AbstractQueryBuilder An instance of the AbstractQueryBuilder class for constructing SQL queries.
+     * @return MysqlQueryBuilder An instance of the AbstractQueryBuilder class for constructing SQL queries.
      */
     public function query() : MysqlQueryBuilder
     {
@@ -103,7 +103,7 @@ class MysqlAdapter extends AbstractDatabaseAdapter
      * @inheritdoc
      *
      * @param  string $table The name of the table to create.
-     * @return  AbstractMigration Returns an instance of the AbstractMigration class for managing table creation.
+     * @return  MysqlMigration Returns an instance of the AbstractMigration class for managing table creation.
      */
     public function createTable( string $table ) : MysqlMigration
     {
@@ -114,7 +114,7 @@ class MysqlAdapter extends AbstractDatabaseAdapter
      * @inheritdoc
      *
      * @param  string $table The name of the table to modify.
-     * @return AbstractMigration Returns an instance of the AbstractMigration class for managing table alterations.
+     * @return MysqlMigration Returns an instance of the AbstractMigration class for managing table alterations.
      */
     public function alterTable( string $table ) : MysqlMigration
     {
@@ -124,7 +124,7 @@ class MysqlAdapter extends AbstractDatabaseAdapter
     /**
      * @inheritdoc
      *
-     * @return array Return a list of table names on this connection.
+     * @return string[] Return a list of table names on this connection.
      */
     public function getTables() : array
     {

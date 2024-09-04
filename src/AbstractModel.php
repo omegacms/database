@@ -43,11 +43,11 @@ abstract class AbstractModel
 {
     /**
      * Current database instance.
-     * 
+     *
      * @var DatabaseAdapterInterface $connection Holds the current database instance.
      */
     protected DatabaseAdapterInterface $connection;
-    
+
     /**
      * Table name in the database.
      *
@@ -58,21 +58,21 @@ abstract class AbstractModel
     /**
      * Model attributes.
      *
-     * @var array $attributes Holds the model attributes.
+     * @var array<string, mixed> $attributes Holds the model attributes.
      */
     protected array $attributes = [];
 
     /**
      * Modified attributes,
      *
-     * @var array $dirty Holds the modified attributes.
+     * @var array<string> $dirty Holds the modified attributes.
      */
     protected array $dirty = [];
 
     /**
      * Attribute casting types.
      *
-     * @var array $casts Holds an array of attributes casting types.
+     * @var array<string, callable(mixed): mixed> $casts Holds an array of attributes casting types.
      */
     protected array $casts = [];
 
@@ -94,12 +94,13 @@ abstract class AbstractModel
      *
      * @return DatabaseAdapterInterface Return the current instance of DatabaseAdapterInterface.
      */
-    public function getConnection() : DatabaseAdapterInterface
+    public function getConnection(): DatabaseAdapterInterface
     {
-        if ( ! isset( $this->connection ) ) {
-            $this->connection = app( 'database' );
+        if (!isset($this->connection)) {
+            $this->connection = app('database');
+            assert( $this->connection instanceof DatabaseAdapterInterface );
         }
-
+    
         return $this->connection;
     }
 
@@ -144,7 +145,7 @@ abstract class AbstractModel
     /**
      * Model with attributes,
      *
-     * @param  array $attributes Holds an array of attributes.
+     * @param  array<string, mixed> $attributes Holds an array of attributes.
      * @return static
      */
     public static function with( array $attributes = [] ) : static
@@ -176,8 +177,8 @@ abstract class AbstractModel
      *  This method allows dynamic method calls on the ModelCollector, delegating them to the
      *  underlying query builder instance. This is particularly useful for building queries fluently.
      *
-     * @param  string $method    Holds the method name.
-     * @param  array $parameters Holds the method parameters.
+     * @param  string       $method     Holds the method name.
+     * @param  array<mixed> $parameters Holds the method parameters.
      * @return $this|mixed Return $this if the method is fluent, otherwise, returns the method result.
      * @throws Exception if the tabl is not set or getTable is not defined.
      */

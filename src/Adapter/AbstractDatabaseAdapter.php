@@ -110,7 +110,7 @@ abstract class AbstractDatabaseAdapter implements DatabaseAdapterInterface
     /**
      * @inheritdoc
      *
-     * @return array Returns an array of table names available on this connection.
+     * @return string[] Returns an array of table names available on this connection.
      */
     abstract public function getTables() : array;
 
