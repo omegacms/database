@@ -22,11 +22,6 @@
     "omegacms/container": "^1.0.0",
     "symfony/console": "^7.1"
   },
-  "require-dev": {
-    "omegacms/testing": "^1.0.0",
-    "phpunit/phpunit": "^9.5",
-    "phpstan/phpstan": "^1.12"
-  },
   "suggest": {
     "ext-pdo": "Enables database access via PDO.",
     "ext-pdo_mysql": "Enables MySQL database access via PDO.",
@@ -35,11 +30,6 @@
   "autoload": {
     "psr-4": {
       "Omega\\Database\\": "src/"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Omega\\Database\\Tests\\": "tests/"
     }
   },
   "minimum-stability": "stable"
