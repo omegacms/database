@@ -42,8 +42,5 @@
       "Omega\\Database\\Tests\\": "tests/"
     }
   },
-  "scripts": {
-    "test": "vendor/bin/phpunit"
-  },
   "minimum-stability": "stable"
 }
