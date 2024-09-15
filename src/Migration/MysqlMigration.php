@@ -73,7 +73,7 @@ class MysqlMigration extends AbstractMigration
     public function execute() : void
     {
         $fields = array_map( fn( $field ) => $this->stringForField( $field ), $this->fields );
-
+        
         $primary = array_filter( $this->fields, fn( $field ) => $field instanceof IdField );
         $primaryKey = isset( $primary[ 0 ] ) ? "PRIMARY KEY (`{$primary[0]->name}`)" : '';
 
@@ -93,11 +93,8 @@ class MysqlMigration extends AbstractMigration
         if ( $this->type === 'alter' ) {
             $fields = is_array($fields) ? $fields : [$fields];
 
-    $fields = join(PHP_EOL, array_map(fn($field) => "{$field};", $fields));
-    $drops = join(PHP_EOL, array_map(fn($drop) => "DROP COLUMN `{$drop}`;", $this->drops));
-
-            //$fields = join( PHP_EOL, array_map( fn( $field ) => "{$field};", $fields ) );
-            //$drops = join( PHP_EOL, array_map( fn( $drop ) => "DROP COLUMN `{$drop}`;", $this->drops ) );
+        $fields = join(PHP_EOL, array_map(fn($field) => "{$field};", $fields));
+        $drops  = join(PHP_EOL, array_map(fn($drop) => "DROP COLUMN `{$drop}`;", $this->drops));
 
             $query .= "
                 ALTER TABLE `{$this->table}`

@@ -97,7 +97,7 @@ class MigrateCommand extends Command
 		$paths   = glob( "{$current}/{$pattern}" );
 
         if ( $paths === false || count( $paths ) < 1 ) {
-            $output->writeln( 'No migrations found' );
+            $output->writeln( '<warning>No migrations found.</warning>' );
             return Command::SUCCESS;
         }
 
@@ -106,14 +106,14 @@ class MigrateCommand extends Command
         assert( $connection instanceof AbstractDatabaseAdapter );
 
         if ( $input->getOption( 'fresh' ) ) {
-            $output->writeln( 'Dropping existing database tables' );
+            $output->writeln( '<comment>Dropping existing database tables.</comment>' );
             $connection->dropTables();
 	        $connection = app( 'database' );
             assert( $connection instanceof AbstractDatabaseAdapter );
         }
 
         if ( ! $connection->hasTable( 'migrations' ) ) {
-            $output->writeln( 'Creating migrations table' );
+            $output->writeln( '<comment>Creating migrations table.</comment>' );
             $this->createMigrationsTable( $connection );
         }
 
@@ -123,14 +123,14 @@ class MigrateCommand extends Command
 
             require $path;
 
-            $output->writeln( "Migrating: {$class}" );
+            $output->writeln( "<info>Migrating: {$class}</info>" );
 
             $obj = new $class();
 
             if ( method_exists( $obj, 'migrate' ) ) {
                 $obj->migrate( $connection );
             } else {
-                $output->writeln( "Class {$class} does not have a migration method." );
+                $output->writeln( '<error>Class {$class} does not have a migration method.</error>' );
                 return Command::FAILURE;
             }
 
@@ -151,6 +151,10 @@ class MigrateCommand extends Command
      */
     private function createMigrationsTable( AbstractDatabaseAdapter $connection ) : void
     {
+        if ( $connection->hasTable( 'migrations' ) ) {
+            return;
+        }
+        
         $table = $connection->createTable( 'migrations' );
         $table->id( 'id' );
         $table->string( 'name' );
