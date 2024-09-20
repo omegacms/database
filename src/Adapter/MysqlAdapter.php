@@ -28,6 +28,7 @@ use Omega\Database\Exceptions\ConnectionException;
 use Omega\Database\Migration\MysqlMigration;
 use Omega\Database\QueryBuilder\MysqlQueryBuilder;
 use Pdo;
+use PDOException;
 
 /**
  * MySQL adapter class.
@@ -86,7 +87,36 @@ class MysqlAdapter extends AbstractDatabaseAdapter
 
         $this->database = $database;
 
-        $this->pdo = new Pdo( "mysql:host={$host};port={$port};dbname={$database}", $username, $password );
+        // Assicuriamoci che il database esista
+        $this->checkIfDatabaseExists($host, (string)$port, $username, $password);
+
+        // Ora, procedi con la connessione al database selezionato
+        $dsn = "mysql:host={$host};port={$port};dbname={$database}";
+        
+        parent::__construct($dsn, $username, $password);
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @param string $host     Holds the host of the database.
+     * @param int    $port     Holds the port number.
+     * @param string $username Holds the username for the connection.
+     * @param string $password Holds the password for the connection.
+     * @return void
+     */
+    public function checkIfDatabaseExists( string $host, string $port, string $username, string $password ) : void
+    {
+        $dsn = "mysql:host={$host};port={$port}";
+        $pdo = new Pdo($dsn, $username, $password);
+
+        $statement = $pdo->prepare("SHOW DATABASES LIKE :database");
+        $statement->execute([':database' => $this->database]);
+        $exists = $statement->fetch();
+
+        if (!$exists) {
+            $pdo->exec("CREATE DATABASE `{$this->database}`");
+        }
     }
 
     /**

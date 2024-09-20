@@ -177,6 +177,13 @@ abstract class AbstractMigration implements MigrationInterface
 
     /**
      * @inheritdoc
+     * 
+     * return void
+     */
+    abstract public function down(): void;
+    
+    /**
+     * @inheritdoc
      *
      * @param  AbstractField $field Holds an instance of AbstractField.
      * @return string Return the string for the field.

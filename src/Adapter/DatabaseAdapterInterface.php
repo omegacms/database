@@ -50,6 +50,17 @@ interface DatabaseAdapterInterface
     public function pdo() : Pdo;
 
     /**
+     * Check if database exists, otherwise create it.
+     *
+     * @param string $host     Holds the host of the database.
+     * @param int    $port     Holds the port number.
+     * @param string $username Holds the username for the connection.
+     * @param string $password Holds the password for the connection.
+     * @return void
+     */
+    public function checkIfDatabaseExists( string $host, string $port, string $username, string $password ) : void;
+
+    /**
      * Start a new query builder on this connection.
      *
      * This method initializes a new query builder instance for building SQL queries.

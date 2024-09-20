@@ -99,6 +99,32 @@ class SqliteMigration extends AbstractMigration
     }
 
     /**
+     * Esegui il rollback della migrazione.
+     *
+     * @return void
+     */
+    public function down(): void
+    {
+        // Gestione rollback della creazione della tabella
+        if ($this->type === 'create') {
+            $query = "DROP TABLE IF EXISTS \"{$this->table}\"";
+        }
+
+        // Gestione rollback della modifica della tabella
+        if ($this->type === 'alter') {
+            $drops = join(PHP_EOL, array_map(fn($drop) => "DROP COLUMN \"{$drop}\";", $this->drops));
+            $query = "
+                ALTER TABLE \"{$this->table}\"
+                {$drops}
+            ";
+        }
+
+        // Prepara ed esegui la query usando PDO
+        $statement = $this->connection->pdo()->prepare($query);
+        $statement->execute();
+    }
+
+    /**
      * @inheritdoc
      *
      * @param  AbstractField $field Holds an instance of AbstractField.

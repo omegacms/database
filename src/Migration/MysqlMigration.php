@@ -79,7 +79,7 @@ class MysqlMigration extends AbstractMigration
 
         $query = '';
 
-        if ( $this->type === 'create' ) {
+/**       if ( $this->type === 'create' ) {
             $fields = join( PHP_EOL, array_map( fn( $field ) => "{$field},", $fields ) );
 
             $query .= "
@@ -101,11 +101,56 @@ class MysqlMigration extends AbstractMigration
                 {$fields}
                 {$drops}
             ";
+        }*/
+
+        if ($this->type === 'create') {
+            $fields = join(PHP_EOL, array_map(fn($field) => "{$field},", $fields));
+            $query = "
+                CREATE TABLE `{$this->table}` (
+                    {$fields}
+                    {$primaryKey}
+                ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+            ";
+        }
+
+        if ($this->type === 'alter') {
+            $fields = join(PHP_EOL, array_map(fn($field) => "{$field};", $fields));
+            $drops = join(PHP_EOL, array_map(fn($drop) => "DROP COLUMN `{$drop}`;", $this->drops));
+            $query = "
+                ALTER TABLE `{$this->table}`
+                {$fields}
+                {$drops}
+            ";
         }
 
         $statement = $this->connection->pdo()->prepare( $query );
         $statement->execute();
     }
+
+    /**
+     * @inheritdoc
+     *
+     * @return void
+     */
+    public function down(): void
+    {
+        if ($this->type === 'create') {
+            $query = "DROP TABLE IF EXISTS `{$this->table}`";
+        }
+    
+        if ($this->type === 'alter') {
+            $drops = join(PHP_EOL, array_map(fn($drop) => "DROP COLUMN `{$drop}`;", $this->drops));
+            $query = "
+                ALTER TABLE `{$this->table}`
+                {$drops}
+            ";
+        }
+    
+        // Prepara ed esegui la query usando PDO direttamente
+        $statement = $this->connection->pdo()->prepare($query);
+        $statement->execute();
+    }
+    
 
     /**
      * @inheritdoc

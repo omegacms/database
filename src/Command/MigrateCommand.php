@@ -22,6 +22,7 @@ namespace Omega\Database\Command;
  * @use
  */
 use function glob;
+use Exception;
 use RuntimeException;
 use Omega\Database\Adapter\AbstractDatabaseAdapter;
 use Symfony\Component\Console\Command\Command;
@@ -75,6 +76,7 @@ class MigrateCommand extends Command
         $this
             ->setDescription( 'Migrates the database' )
             ->addOption( 'fresh', null, InputOption::VALUE_NONE, 'Delete all tables before running the migrations' )
+            ->addOption( 'update', null, InputOption::VALUE_NONE, 'Apply only new migrations' )
             ->setHelp( 'This command looks for all migration files and runs them' );
     }
 
@@ -92,24 +94,19 @@ class MigrateCommand extends Command
      */
     protected function execute( InputInterface $input, OutputInterface $output ) : int
     {
-        $current = get_database_path( 'migrations' );
-		$pattern = env( 'DB_CONNECTION' ) . '/*.php';
-		$paths   = glob( "{$current}/{$pattern}" );
+        $paths = glob( get_database_path( 'migrations/schemes/*.php' ) );
 
         if ( $paths === false || count( $paths ) < 1 ) {
             $output->writeln( '<warning>No migrations found.</warning>' );
             return Command::SUCCESS;
         }
 
-	    $connection = app( 'database' );
-
+        $connection = app( 'database' );
         assert( $connection instanceof AbstractDatabaseAdapter );
 
         if ( $input->getOption( 'fresh' ) ) {
             $output->writeln( '<comment>Dropping existing database tables.</comment>' );
             $connection->dropTables();
-	        $connection = app( 'database' );
-            assert( $connection instanceof AbstractDatabaseAdapter );
         }
 
         if ( ! $connection->hasTable( 'migrations' ) ) {
@@ -117,30 +114,108 @@ class MigrateCommand extends Command
             $this->createMigrationsTable( $connection );
         }
 
-        foreach ( $paths as $path ) {
-            [ $prefix, $file     ] = explode( '_', $path );
-            [ $class, $extension ] = explode( '.', $file );
-
-            require $path;
-
-            $output->writeln( "<info>Migrating: {$class}</info>" );
-
-            $obj = new $class();
-
-            if ( method_exists( $obj, 'migrate' ) ) {
-                $obj->migrate( $connection );
-            } else {
-                $output->writeln( '<error>Class {$class} does not have a migration method.</error>' );
-                return Command::FAILURE;
-            }
-
-            $connection
-                ->query()
-                ->from( 'migrations' )
-                ->insert( [ 'name' ], [ 'name' => $class ] );
+        if ( $input->getOption( 'update' ) ) {
+            $output->writeln( '<comment>Running only new migrations.</comment>' );
+            $this->runNewMigrations($paths, $connection, $output);
+        } else {
+            $this->runAllMigrations($paths, $connection, $output);
         }
 
         return Command::SUCCESS;
+    }
+
+    /**
+     * Runs all the migrations in the given paths.
+     *
+     * @param array                   $paths      Holds the migration files paths.
+     * @param AbstractDatabaseAdapter $connection Holds the database connection.
+     * @param OutputInterface         $output     Holds the command output interface.
+     * @return void
+     */
+    private function runAllMigrations(array $paths, AbstractDatabaseAdapter $connection, OutputInterface $output): void
+    {
+        foreach ( $paths as $path ) {
+            $this->runMigration($path, $connection, $output);
+        }
+    }
+
+    /**
+     * Runs only new migrations that are not in the migrations table.
+     *
+     * @param array                   $paths      Holds the migration files paths.
+     * @param AbstractDatabaseAdapter $connection Holds the database connection.
+     * @param OutputInterface         $output     Holds the command output interface.
+     * @return void
+     */
+    private function runNewMigrations(array $paths, AbstractDatabaseAdapter $connection, OutputInterface $output): void
+    {
+        $executedMigrations = array_column(
+            $connection
+                ->query()
+                ->from('migrations')
+                ->select('name')
+                ->all(), 
+            'name'
+        );
+
+        foreach ( $paths as $path ) {
+            [ $prefix, $file ] = explode('_', $path);
+            [ $class, $extension ] = explode('.', $file);
+
+            if (!in_array($class, $executedMigrations)) {
+                $this->runMigration($path, $connection, $output);
+            } else {
+                $output->writeln("<info>Migration {$class} already applied. Skipping.</info>");
+    
+            }
+        }
+    }
+
+    /**
+     * Runs a single migration file.
+     *
+     * @param string                  $path       Holds the migration file path.
+     * @param AbstractDatabaseAdapter $connection Holds the database connection.
+     * @param OutputInterface         $output     Holds the command output interface.
+     * @return void
+     */
+    private function runMigration(string $path, AbstractDatabaseAdapter $connection, OutputInterface $output): void
+    {
+   
+        [ $prefix, $file ] = explode('_', $path);
+        [ $class, $extension ] = explode('.', $file);
+
+        require $path;
+
+        $output->writeln("<info>Migrating: {$class}</info>");
+
+        $obj = new $class();
+
+        if (method_exists($obj, 'up')) {
+            try {
+                if ( $connection->hasTable( $obj->table ) ) {
+                    $output->writeln("<info>Table {$obj->table} already exists. Skipping migration.</info>");
+                    return;
+                }
+
+                $obj->up( $connection );
+
+                $connection
+                ->query()
+                ->from( 'migrations' )
+                ->insert([ 'name' ], [ 'name' => $class ]);
+
+            } catch ( Exception $e ) {
+                $output->writeln("<error>Migration {$class} failed. Rolling back...</error>");
+                if (method_exists($obj, 'down')) {
+                    $obj->down($connection);
+                }
+                throw $e;
+            }
+        } else {
+            $output->writeln("<error>Class {$class} does not have an up method.</error>");
+            return;
+        }
     }
 
     /**

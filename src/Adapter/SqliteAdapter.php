@@ -24,6 +24,7 @@ namespace Omega\Database\Adapter;
 use function array_map;
 use function array_shift;
 use function extension_loaded;
+use function file_exists;
 use Omega\Database\Exceptions\AdapterException;
 use Omega\Database\Exceptions\ConnectionException;
 use Omega\Database\Migration\SqliteMigration;
@@ -72,8 +73,45 @@ class SqliteAdapter extends AbstractDatabaseAdapter
             );
         }
 
-        $this->pdo = new Pdo( "sqlite:{$path}" );
+        $dsn = "sqlite:{$path}";
+
+        parent::__construct( $dsn );
     }
+
+    /**
+     * @inheritdoc
+     *
+     * @param string $host     Holds the host of the database.
+     * @param int    $port     Holds the port number.
+     * @param string $username Holds the username for the connection.
+     * @param string $password Holds the password for the connection.
+     * @return void
+     */
+    public function checkIfDatabaseExists( string $host, string $port, string $username, string $password ) : void
+    {
+        // Not necessary in SQLite3
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @return void
+     */
+    public function createDatabase(): void
+    {
+        // Not used
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @return string Return the database name.
+     */
+    public function getDatabaseName(): string
+    {
+        return '';
+    }
+
 
     /**
      * @inheritdoc

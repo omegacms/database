@@ -24,9 +24,11 @@ namespace Omega\Database\Adapter;
 use function in_array;
 use function extension_loaded;
 use Omega\Database\Exceptions\AdapterException;
+use Omega\Database\Exceptions\ConnectionException;
 use Omega\Database\Migration\AbstractMigration;
 use Omega\Database\QueryBuilder\AbstractQueryBuilder;
 use Pdo;
+use PDOException;
 
 /**
  * Abstract database adapter class.
@@ -54,6 +56,35 @@ abstract class AbstractDatabaseAdapter implements DatabaseAdapterInterface
     public Pdo $pdo;
 
     /**
+     * Constructs a new database adapter instance.
+     *
+     * @param string $dsn The Data Source Name (DSN) for the database connection.
+     * @param string $username The username for the database connection.
+     * @param string $password The password for the database connection.
+     * @throws AdapterException if the PDO extension is not installed or enabled.
+     * @throws ConnectionException if the database connection fails.
+     * @throws PDOException
+     */
+    public function __construct( string $dsn, string $username = '', string $password = '' )
+    {
+
+        if ( ! extension_loaded( 'pdo' ) ) {
+            throw new AdapterException(
+                'PDO extension is not enabled. Please make sure to install or enable the PDO extension to use database functionality.'
+            );
+        }
+
+        try {
+            $this->pdo = new Pdo( $dsn, $username, $password );
+        } catch ( PDOException $e ) {
+            throw new ConnectionException(
+                'Database connection failed: '
+                . $e->getMessage()
+            );
+        }
+    }
+
+    /**
      * @inheritdoc
      *
      * @return Pdo Returns the current PDO instance that represents the database connection.
@@ -61,15 +92,19 @@ abstract class AbstractDatabaseAdapter implements DatabaseAdapterInterface
      */
     public function pdo() : Pdo
     {
-        if ( ! extension_loaded( 'pdo' ) ) {
-            throw new AdapterException(
-                'PDO extension is not enabled. Please make sure to install or enable the PDO extension to use database functionality.'
-            );
-
-        }
-
         return $this->pdo;
     }
+
+    /**
+     * @inheritdoc
+     *
+     * @param string $host     Holds the host of the database.
+     * @param int    $port     Holds the port number.
+     * @param string $username Holds the username for the connection.
+     * @param string $password Holds the password for the connection.
+     * @return void
+     */
+    abstract public function checkIfDatabaseExists( string $host, string $port, string $username, string $password ) : void;
 
     /**
      * @inheritdoc

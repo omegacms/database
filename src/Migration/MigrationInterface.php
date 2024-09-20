@@ -48,6 +48,13 @@ interface MigrationInterface
     public function execute() : void;
 
     /**
+     * Rolls back the migration (drops the table).
+     * 
+     * @return void
+     */
+    public function down(): void;
+    
+    /**
      * String for field.
      *
      * @param  AbstractField $field Holds an instance of AbstractField.
