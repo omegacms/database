@@ -21,10 +21,10 @@ namespace Omega\Database\Factory;
 /**
  * @use
  */
-use Exception;
 use Omega\Database\Adapter\DatabaseAdapterInterface;
 use Omega\Database\Adapter\MysqlAdapter;
 use Omega\Database\Adapter\SqliteAdapter;
+use Omega\Database\Exception\AdapterException;
 
 /**
  * Database factory class.
@@ -61,7 +61,7 @@ class DatabaseFactory
         return match( $config[ 'type' ] ) {
             'mysql'  => new MysqlAdapter( $config ),
             'sqlite' => new SqliteAdapter( $config ),
-            default  => throw new Exception( 'Unrecognised type.' )
+            default  => throw new AdapterException( 'Unrecognised type.' )
         };
     }    
 }
