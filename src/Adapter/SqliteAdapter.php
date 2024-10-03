@@ -25,8 +25,8 @@ use function array_map;
 use function array_shift;
 use function extension_loaded;
 use function file_exists;
-use Omega\Database\Exceptions\AdapterException;
-use Omega\Database\Exceptions\ConnectionException;
+use Omega\Database\Exception\AdapterException;
+use Omega\Database\Exception\ConnectionException;
 use Omega\Database\Migration\SqliteMigration;
 use Omega\Database\QueryBuilder\SqliteQueryBuilder;
 use Pdo;
@@ -40,8 +40,8 @@ use Pdo;
  * class.
  *
  * @category    Omega
- * @package     Omega\Database
- * @subpackage  Omega\Database\Adapter
+ * @package     Database
+ * @subpackage  Adapter
  * @link        https://omegacms.github.io
  * @author      Adriano Giovannini <omegacms@outlook.com>
  * @copyright   Copyright (c) 2024 Adriano Giovannini. (https://omegacms.github.io)

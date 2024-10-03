@@ -23,8 +23,8 @@ namespace Omega\Database\Adapter;
  */
 use function array_map;
 use function extension_loaded;
-use Omega\Database\Exceptions\AdapterException;
-use Omega\Database\Exceptions\ConnectionException;
+use Omega\Database\Exception\AdapterException;
+use Omega\Database\Exception\ConnectionException;
 use Omega\Database\Migration\MysqlMigration;
 use Omega\Database\QueryBuilder\MysqlQueryBuilder;
 use Pdo;
@@ -33,14 +33,14 @@ use PDOException;
 /**
  * MySQL adapter class.
  *
- * The `MysqleDatabaseAdapter` class is an implementation of the abstract `AbstractDatabaseAdapter`
+ * The `MysqlDatabaseAdapter` class is an implementation of the abstract `AbstractDatabaseAdapter`
  * and is specifically tailored for MySQL database connections. This adapter provides mysql-specific
  * database management features while inheriting the common database functionality defined in the parent
  * class.
  *
  * @category    Omega
- * @package     Omega\Database
- * @subpackage  Omega\Database\Adapter
+ * @package     Database
+ * @subpackage  Adapter
  * @link        https://omegacms.github.io
  * @author      Adriano Giovannini <omegacms@outlook.com>
  * @copyright   Copyright (c) 2024 Adriano Giovannini. (https://omegacms.github.io)

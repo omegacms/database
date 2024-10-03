@@ -24,8 +24,8 @@ namespace Omega\Database\Migration\Field;
  * The `StringField` represents a string field for database migrations.
  *
  * @category    Omega
- * @package     Omega\Database
- * @subpackage  Omega\Database\Migration\Field
+ * @package     Database
+ * @subpackage  Migration\Field
  * @link        https://omegacms.github.io
  * @author      Adriano Giovannini <omegacms@outlook.com>
  * @copyright   Copyright (c) 2024 Adriano Giovannini. (https://omegacms.github.io)

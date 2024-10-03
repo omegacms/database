@@ -16,19 +16,19 @@ declare( strict_types = 1 );
 /**
  * @namespace
  */
-namespace Omega\Database\Exceptions;
+namespace Omega\Database\Exception;
 
 /**
  * @use
  */
-use PDOException;
+use InvalidArgumentException;
 
 /**
- * Adapter exception class.
+ * Connection exception class.
  *
- * The `AdapterException` thrown for database adapter-related errors.
- * This exception is a subclass of PDOException and is used to represent
- * errors that occur specifically in the context of database adapters.
+ * The `ConnectionException` thrown for improperly configured database connections.
+ * This exception is a subclass of InvalidArgumentException and is used to represent
+ * errors that occur when a database connection is not properly configured.
  *
  * @category    Omega
  * @package     Omega\Database
@@ -39,6 +39,6 @@ use PDOException;
  * @license     https://www.gnu.org/licenses/gpl-3.0-standalone.html     GPL V3.0+
  * @version     1.0.0
  */
-class AdapterException extends PDOException
+class ConnectionException extends InvalidArgumentException
 {
 }

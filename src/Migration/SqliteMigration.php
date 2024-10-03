@@ -24,7 +24,7 @@ namespace Omega\Database\Migration;
 use function array_map;
 use function join;
 use Omega\Database\Adapter\DatabaseAdapterInterface;
-use Omega\Database\Exceptions\MigrationException;
+use Omega\Database\Exception\MigrationException;
 use Omega\Database\Migration\Field\AbstractField;
 use Omega\Database\Migration\Field\BoolField;
 use Omega\Database\Migration\Field\DateTimeField;
@@ -41,8 +41,8 @@ use Omega\Database\Migration\Field\TextField;
  * or altering tables.
  *
  * @category    Omega
- * @package     Omega\Database
- * @subpackage  Omega\Database\Migration
+ * @package     Database
+ * @subpackage  Migration
  * @link        https://omegacms.github.io
  * @author      Adriano Giovannini <omegacms@outlook.com>
  * @copyright   Copyright (c) 2024 Adriano Giovannini. (https://omegacms.github.io)

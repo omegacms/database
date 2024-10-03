@@ -33,8 +33,8 @@ use Pdo;
  * with a database.
  *
  * @category    Omega
- * @package     Omega\Database
- * @subpackage  Omega\Database\Adapter
+ * @package     Database
+ * @subpackage  Adapter
  * @link        https://omegacms.github.io
  * @author      Adriano Giovannini <omegacms@outlook.com>
  * @version     1.0.0

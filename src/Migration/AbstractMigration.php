@@ -38,8 +38,8 @@ use Omega\Database\Migration\Field\TextField;
  * migrations with various field types.
  *
  * @category    Omega
- * @package     Omega\Database
- * @subpackage  Omega\Database\Migration
+ * @package     Database
+ * @subpackage  Migration
  * @link        https://omegacms.github.io
  * @author      Adriano Giovannini <omegacms@outlook.com>
  * @copyright   Copyright (c) 2024 Adriano Giovannini. (https://omegacms.github.io)

@@ -38,7 +38,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  * option to delete all database tables before running migrations.
  *
  * @category    Omega
- * @package     Omega\Commands
+ * @package     Database
+ * @subpackage  Commands
  * @link        https://omegacms.github.io
  * @author      Adriano Giovannini <omegacms@outlook.com>
  * @copyright   Copyright (c) 2024 Adriano Giovannini. (https://omegacms.github.io)

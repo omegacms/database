@@ -16,30 +16,34 @@ declare( strict_types = 1 );
 /**
  * @namespace
  */
-namespace Omega\Database\Exceptions;
+namespace Omega\Database\Exception;
 
 /**
  * @use
  */
-use PDOException;
+use Exception;
 
 /**
- * Migration exception class.
+ * QueryException class.
  *
- * The `MigrationException` thrown for migration-related errors.
- * This exception is a subclass of PDOException and is used to
- * represent errors that occur specifically in the context of
- * database migrations.
+ * The `QueryException` is thrown when there is an error executing a database query. 
+ * This exception serves to indicate issues such as malformed SQL statements, 
+ * syntax errors, or other problems encountered during the execution of a query 
+ * against the database.
  *
+ * By utilizing this exception, the database package can provide clearer error 
+ * handling and reporting mechanisms, allowing developers to quickly identify 
+ * and rectify issues related to database interactions.
+ * 
  * @category    Omega
- * @package     Omega\Database
- * @subpackage  Omega\Database\Exceptions
+ * @package     Database
+ * @subpackage  Exception
  * @link        https://omegacms.github.io
  * @author      Adriano Giovannini <omegacms@outlook.com>
  * @copyright   Copyright (c) 2024 Adriano Giovannini. (https://omegacms.github.io)
  * @license     https://www.gnu.org/licenses/gpl-3.0-standalone.html     GPL V3.0+
  * @version     1.0.0
  */
-class MigrationException extends PDOException
+class QueryException extends Exception
 {
 }

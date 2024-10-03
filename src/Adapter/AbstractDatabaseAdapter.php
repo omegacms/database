@@ -23,8 +23,8 @@ namespace Omega\Database\Adapter;
  */
 use function in_array;
 use function extension_loaded;
-use Omega\Database\Exceptions\AdapterException;
-use Omega\Database\Exceptions\ConnectionException;
+use Omega\Database\Exception\AdapterException;
+use Omega\Database\Exception\ConnectionException;
 use Omega\Database\Migration\AbstractMigration;
 use Omega\Database\QueryBuilder\AbstractQueryBuilder;
 use Pdo;
@@ -38,8 +38,8 @@ use PDOException;
  * of several methods defined in the `DatabaseAdapterInterface` interface.
  *
  * @category    Omega
- * @package     Omega\Database
- * @subpackage  Omega\Database\Adapter
+ * @package     Database
+ * @subpackage  Adapter
  * @link        https://omegacms.github.io
  * @author      Adriano Giovannini <omegacms@outlook.com>
  * @copyright   Copyright (c) 2024 Adriano Giovannini. (https://omegacms.github.io)

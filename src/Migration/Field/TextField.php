@@ -21,7 +21,7 @@ namespace Omega\Database\Migration\Field;
 /**
  * @use
  */
-use Omega\Database\Exceptions\MigrationException;
+use Omega\Database\Exception\MigrationException;
 
 /**
  * Text field class.
@@ -29,8 +29,8 @@ use Omega\Database\Exceptions\MigrationException;
  * The `TextField` represents a text field for database migrations.
  *
  * @category    Omega
- * @package     Omega\Database
- * @subpackage  Omega\Database\Migration\Field
+ * @package     Database
+ * @subpackage  Migration\Field
  * @link        https://omegacms.github.io
  * @author      Adriano Giovannini <omegacms@outlook.com>
  * @copyright   Copyright (c) 2024 Adriano Giovannini. (https://omegacms.github.io)

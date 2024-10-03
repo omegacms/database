@@ -31,8 +31,8 @@ use Omega\Database\Adapter\DatabaseAdapterInterface;
  *  work with the SqliteAdapter for database connections.
  *
  * @category    Omega
- * @package     Omega\Database
- * @subpackage  Omega\Database\QueryBuilder
+ * @package     Database
+ * @subpackage  QueryBuilder
  * @link        https://omegacms.github.io
  * @author      Adriano Giovannini <omegacms@outlook.com>
  * @copyright   Copyright (c) 2024 Adriano Giovannini. (https://omegacms.github.io)

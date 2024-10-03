@@ -22,7 +22,7 @@ namespace Omega\Database;
  * @use
  */
 use Omega\Database\Adapter\DatabaseAdapterInterface;
-use Omega\Database\Exceptions\UndefinedTableNameException;
+use Omega\Database\Exception\UndefinedTableNameException;
 use Exception;
 use ReflectionClass;
 
@@ -32,7 +32,7 @@ use ReflectionClass;
  * The `AbstractModel` class providing the base for model class.
  *
  * @category    Omega
- * @package     Omega\Model
+ * @package     Database
  * @link        https://omegacms.github.io
  * @author      Adriano Giovannini <omegacms@outlook.com>
  * @copyright   Copyright (c) 2024 Adriano Giovannini. (https://omegacms.github.io)

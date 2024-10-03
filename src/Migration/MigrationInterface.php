@@ -30,8 +30,8 @@ use Omega\Database\Migration\Field\AbstractField;
  * executing migrations on a database.
  *
  * @category    Omega
- * @package     Omega\Database
- * @subpackage  Omega\Database\Migration
+ * @package     Database
+ * @subpackage  Migration
  * @link        https://omegacms.github.io
  * @author      Adriano Giovannini <omegacms@outlook.com>
  * @copyright   Copyright (c) 2024 Adriano Giovannini. (https://omegacms.github.io)

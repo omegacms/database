@@ -22,7 +22,7 @@ namespace Omega\Database\QueryBuilder;
  * @use
  */
 
-use Omega\Database\Exceptions\QueryException;
+use Omega\Database\Exception\QueryException;
 use PdoStatement;
 
 /**
@@ -33,8 +33,8 @@ use PdoStatement;
  * including SELECT, INSERT, UPDATE, and DELETE queries. *
  *
  * @category    Omega
- * @package     Omega\Database
- * @subpackage  Omega\Database\QueryBuilder
+ * @package     Database
+ * @subpackage  QueryBuilder
  * @link        https://omegacms.github.io
  * @author      Adriano Giovannini <omegacms@outlook.com>
  * @copyright   Copyright (c) 2024 Adriano Giovannini. (https://omegacms.github.io)
