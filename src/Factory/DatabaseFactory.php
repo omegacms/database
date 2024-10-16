@@ -42,7 +42,7 @@ use Omega\Database\Exception\AdapterException;
  * @license     https://www.gnu.org/licenses/gpl-3.0-standalone.html     GPL V3.0+
  * @version     1.0.0
  */
-class DatabaseFactory
+class DatabaseFactory implements DatabaseFactoryInterface
 {
     /**
      * @inheritdoc
@@ -53,7 +53,7 @@ class DatabaseFactory
     public function create( ?array $config = null ) : DatabaseAdapterInterface
     {
         if ( ! isset( $config[ 'type' ] ) ) {
-            throw new Exception(
+            throw new AdapterException(
                 'Type is not defined.'
             );
         }
